@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Smart Electricity Optimizer</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI';
+    background: #f4f6f9;
+}
+.container {
+    display: flex;
+}
+.sidebar {
+    width: 240px;
+    height: 100vh;
+    background: #1e293b;
+    color: white;
+    padding: 20px;
+    position: sticky;
+    top: 0;
+}
+.sidebar h2 {
+    text-align: center;
+}
+.sidebar a {
+    display: block;
+    color: #cbd5e1;
+    text-decoration: none;
+    margin: 12px 0;
+}
+.sidebar a:hover {
+    color: #ffffff;
+}
+.main {
+    flex: 1;
+    padding: 30px;
+}
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0px 3px 10px rgba(0,0,0,0.08);
+}
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 6px 0;
+}
+button {
+    background: #2563eb;
+    color: white;
+    padding: 12px;
+    border: none;
+    width: 100%;
+}
+.box {
+    display: inline-block;
+    width: 30%;
+    text-align: center;
+    background: #e2e8f0;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 8px;
+}
+.alert {
+    background: #fee2e2;
+    padding: 10px;
+}
+.muted {
+    color: #64748b;
+    margin-top: 8px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="sidebar">
+    <h2>⚡ EcoSmart</h2>
+    <a href="#input-section">Input</a>
+    <a href="#results-section">Results</a>
+    <a href="#graph-section">Graph</a>
+    <a href="#tips-section">Suggestions</a>
+    <a href="#top">Back to top</a>
+</div>
+
+<div class="main" id="top">
+
+<div class="card" id="input-section">
+<h2>Enter Details</h2>
+<p class="muted">Enter units directly or leave it blank to auto-estimate from appliance count.</p>
+
+<form method="POST">
+<input type="number" name="units" min="0" step="0.01" placeholder="Enter Units (optional)">
+
+<input type="number" name="fan" min="0" step="1" placeholder="Fans">
+<input type="number" name="ac" min="0" step="1" placeholder="AC">
+<input type="number" name="fridge" min="0" step="1" placeholder="Fridge">
+<input type="number" name="tv" min="0" step="1" placeholder="TV">
+<input type="number" name="induction" min="0" step="1" placeholder="Induction">
+<input type="number" name="ev" min="0" step="1" placeholder="EV Vehicle">
+
+<button type="submit">Calculate</button>
+</form>
+</div>
+
+{% if result %}
+
+{% if result.units > 300 %}
+<div class="card alert">
+🔔 High electricity usage detected!
+</div>
+{% endif %}
+
+<div class="card" id="results-section">
+<h2>Results</h2>
+
+<div class="box">Units<br>{{ result.units }}</div>
+<div class="box">Bill<br>₹ {{ result.bill }}</div>
+<div class="box">Predicted<br>₹ {{ result.predicted }}</div>
+
+{% if result.estimated %}
+<p>⚠️ Units estimated from appliances</p>
+{% endif %}
+</div>
+
+<div class="card" id="graph-section">
+<h2>Usage Graph</h2>
+<canvas id="chart"></canvas>
+</div>
+
+<div class="card" id="tips-section">
+<h2>Suggestions</h2>
+<ul>
+{% for s in result.suggestions %}
+<li>{{ s }}</li>
+{% endfor %}
+</ul>
+</div>
+
+{% endif %}
+
+</div>
+</div>
+<script>
+let currentBill = 0;
+let predictedBill = 0;
+
+{% if result %}
+currentBill = {{ result.bill | tojson }};
+predictedBill = {{ result.predicted | tojson }};
+{% endif %}
+
+if (document.getElementById("chart")) {
+    new Chart(document.getElementById("chart"), {
+        type: "bar",
+        data: {
+            labels: ["Current Bill", "Predicted Bill"],
+            datasets: [{
+                label: "Amount (INR)",
+                data: [currentBill, predictedBill]
+            }]
+        }
+    });
+}
+
+// Guard Notification API usage to avoid runtime errors.
+if ("Notification" in window && Notification.permission !== "granted") {
+    Notification.requestPermission();
+}
+
+{% if result and result.units > 400 %}
+if ("Notification" in window && Notification.permission === "granted") {
+    new Notification("⚡ High Usage Alert", {
+        body: "Your electricity usage is very high!"
+    });
+}
+{% endif %}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,65 @@
+{
+  "appliance_advice": {
+    "precision": 0.8888888888888888,
+    "recall": 1.0,
+    "f1-score": 0.9411764705882353,
+    "support": 8.0
+  },
+  "billing_info": {
+    "precision": 1.0,
+    "recall": 0.875,
+    "f1-score": 0.9333333333333333,
+    "support": 8.0
+  },
+  "iea_benchmark": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 8.0
+  },
+  "personal_stats": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 8.0
+  },
+  "prediction_query": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 8.0
+  },
+  "renewables": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 8.0
+  },
+  "saving_tips": {
+    "precision": 1.0,
+    "recall": 0.875,
+    "f1-score": 0.9333333333333333,
+    "support": 8.0
+  },
+  "smalltalk": {
+    "precision": 0.8888888888888888,
+    "recall": 1.0,
+    "f1-score": 0.9411764705882353,
+    "support": 8.0
+  },
+  "accuracy": 0.96875,
+  "macro avg": {
+    "precision": 0.9722222222222222,
+    "recall": 0.96875,
+    "f1-score": 0.9686274509803922,
+    "support": 64.0
+  },
+  "weighted avg": {
+    "precision": 0.9722222222222222,
+    "recall": 0.96875,
+    "f1-score": 0.9686274509803922,
+    "support": 64.0
+  },
+  "overall_accuracy": 0.96875,
+  "total_examples": 1200
+}

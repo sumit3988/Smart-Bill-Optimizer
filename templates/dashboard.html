@@ -1,0 +1,2250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoSmart - Energy Management Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+    <style>
+        * { scroll-behavior: smooth; }
+        
+        :root {
+            --primary: #4f46e5;
+            --success: #059669;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --bg: #f9fafb;
+            --white: #ffffff;
+            --text-dark: #111827;
+            --text-muted: #6b7280;
+            --border: #e5e7eb;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        html, body {
+            height: 100%;
+            background: var(--bg);
+            color: var(--text-dark);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+        }
+        
+        /* ===== NAVBAR ===== */
+        .navbar {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: var(--primary) !important;
+            letter-spacing: -0.5px;
+        }
+        
+        .navbar-brand i { margin-right: 8px; font-size: 1.4rem; }
+        
+        .nav-link {
+            color: var(--text-muted) !important;
+            font-weight: 500;
+            font-size: 0.95rem;
+            margin: 0 8px;
+            transition: color 0.2s;
+        }
+        
+        .nav-link:hover { color: var(--primary) !important; }
+        
+        .nav-link.active { color: var(--primary) !important; }
+        
+        /* ===== ML MODEL BADGE ===== */
+        .ai-powered-badge {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 6px;
+            font-weight: 700;
+        }
+        
+        /* ===== MAIN LAYOUT ===== */
+        main { padding: 24px 0; }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title i { color: var(--primary); font-size: 1.8rem; }
+        
+        /* ===== CARDS ===== */
+        .card {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--white);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s;
+            margin-bottom: 20px;
+        }
+        
+        .card:hover {
+            box-shadow: var(--shadow-md);
+            border-color: #d1d5db;
+        }
+        
+        .card-header {
+            background: transparent;
+            border-bottom: 1px solid var(--border);
+            padding: 20px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            color: var(--text-dark);
+        }
+        
+        .card-header i {
+            color: var(--primary);
+            margin-right: 10px;
+        }
+        
+        .card-body { padding: 24px; }
+        
+        /* ===== STAT BOXES ===== */
+        .stat-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        
+        .stat-card:hover {
+            box-shadow: var(--shadow-md);
+            border-color: #d1d5db;
+        }
+        
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            font-size: 1.5rem;
+        }
+        
+        .stat-icon.primary { background: #eef2ff; color: var(--primary); }
+        .stat-icon.success { background: #ecfdf5; color: var(--success); }
+        .stat-icon.warning { background: #fffbeb; color: var(--warning); }
+        .stat-icon.danger { background: #fef2f2; color: var(--danger); }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+        
+        .stat-change {
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .stat-change.up { color: var(--success); }
+        .stat-change.down { color: var(--danger); }
+        
+        /* ===== FORMS ===== */
+        .form-label {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+        
+        .form-control, .form-select {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 0.95rem;
+            transition: border-color 0.2s;
+            background: var(--white);
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+        
+        .input-group { margin-bottom: 16px; }
+        
+        .input-group .form-control {
+            border-right: none;
+        }
+        
+        /* ===== BUTTONS ===== */
+        .btn {
+            border-radius: 8px;
+            font-weight: 600;
+            padding: 10px 24px;
+            border: none;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #4338ca;
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-dark);
+        }
+        
+        .btn-outline:hover {
+            background: var(--bg);
+            border-color: var(--text-muted);
+        }
+        
+        /* ===== ECO SCORE ===== */
+        .eco-circle {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+            font-weight: 700;
+            border: 6px solid var(--border);
+        }
+        
+        .eco-circle.excellent { border-color: #10b981; background: rgba(16, 185, 129, 0.05); }
+        .eco-circle.good { border-color: #f59e0b; background: rgba(245, 158, 11, 0.05); }
+        .eco-circle.poor { border-color: #ef4444; background: rgba(239, 68, 68, 0.05); }
+        
+        .eco-number { font-size: 3rem; color: var(--primary); }
+        .eco-label { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
+        
+        /* ===== TABS ===== */
+        .nav-tabs {
+            border-bottom: 2px solid var(--border);
+            gap: 8px;
+        }
+        
+        .nav-tabs .nav-link {
+            border: none;
+            color: var(--text-muted);
+            font-weight: 500;
+            padding: 12px 16px;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        
+        .nav-tabs .nav-link:hover {
+            color: var(--primary);
+            border-bottom-color: var(--border);
+        }
+        
+        .nav-tabs .nav-link.active {
+            background: transparent;
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+        
+        /* ===== CHARTS ===== */
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin: 20px 0;
+        }
+        
+        /* ===== INSIGHTS ===== */
+        .insight-item {
+            padding: 16px;
+            background: #eef2ff;
+            border-left: 4px solid var(--primary);
+            border-radius: 8px;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        /* ===== TIPS ===== */
+        .tip-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: all 0.2s;
+        }
+        
+        .tip-card:hover {
+            box-shadow: var(--shadow-md);
+            border-color: #d1d5db;
+        }
+        
+        .tip-icon {
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+        
+        .tip-title {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+        
+        .tip-description {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+        
+        .tip-savings {
+            background: #eef2ff;
+            color: var(--primary);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: inline-block;
+        }
+        
+        .tip-level {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-left: 8px;
+        }
+
+        .section-panel {
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .appliance-builder {
+            display: grid;
+            gap: 12px;
+        }
+
+        .appliance-row {
+            display: grid;
+            grid-template-columns: minmax(190px, 1.25fr) minmax(84px, 0.7fr) minmax(84px, 0.7fr) minmax(92px, 0.8fr) minmax(84px, auto);
+            gap: 10px;
+            align-items: center;
+            padding: 14px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: #ffffff;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .appliance-row.custom-row {
+            background: #f8fafc;
+            border-style: dashed;
+        }
+
+        .appliance-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .appliance-title {
+            font-weight: 700;
+            font-size: 0.98rem;
+        }
+
+        .appliance-note {
+            color: var(--text-muted);
+            font-size: 0.82rem;
+            line-height: 1.4;
+        }
+
+        .soft-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: #eef2ff;
+            color: var(--primary);
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .summary-grid {
+            display: grid;
+            gap: 12px;
+        }
+
+        .summary-pill {
+            padding: 14px 16px;
+            border-radius: 12px;
+            background: #f8fafc;
+            border: 1px solid var(--border);
+        }
+
+        .summary-pill strong {
+            display: block;
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+
+        .breakdown-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .breakdown-item {
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: #ffffff;
+        }
+
+        .breakdown-item strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .support-card {
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            height: 100%;
+        }
+
+        .support-number {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .support-note {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background: #eef2ff;
+            color: var(--primary);
+            box-shadow: none;
+        }
+
+        .hero-shell {
+            background: radial-gradient(circle at top left, rgba(79, 70, 229, 0.12), transparent 40%),
+                        radial-gradient(circle at bottom right, rgba(5, 150, 105, 0.08), transparent 35%),
+                        #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 26px;
+            margin-bottom: 28px;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .catalog-card {
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 14px;
+            background: #ffffff;
+        }
+
+        .catalog-card .icon {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            color: var(--primary);
+        }
+
+        .catalog-card .label {
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .catalog-card .meta {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .visual-card {
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            padding: 16px;
+            margin-bottom: 14px;
+        }
+
+        .visual-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .visual-header h5 {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 800;
+        }
+
+        .visual-muted {
+            color: var(--text-muted);
+            font-size: 0.82rem;
+        }
+
+        .flow-wrap {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .flow-node {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid var(--border);
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 10px 12px;
+        }
+
+        .flow-node strong {
+            font-size: 0.9rem;
+        }
+
+        .flow-line {
+            height: 8px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, rgba(79, 70, 229, 0.2), rgba(79, 70, 229, 0.8));
+            background-size: 200% 100%;
+            animation: flowRun 2.8s linear infinite;
+        }
+
+        @keyframes flowRun {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 200% 0%; }
+        }
+
+        .consumption-bars {
+            display: grid;
+            gap: 10px;
+        }
+
+        .consumption-row {
+            display: grid;
+            grid-template-columns: 120px 1fr 58px;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .consumption-label {
+            font-size: 0.84rem;
+            color: var(--text-dark);
+            font-weight: 700;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .consumption-track {
+            height: 10px;
+            border-radius: 999px;
+            background: #e5e7eb;
+            overflow: hidden;
+        }
+
+        .consumption-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #4f46e5, #14b8a6);
+            transition: width 0.45s ease;
+        }
+
+        .consumption-value {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-align: right;
+            font-weight: 700;
+        }
+
+        .supply-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .supply-card {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 10px;
+            background: #ffffff;
+            text-align: center;
+        }
+
+        .supply-card i {
+            color: var(--primary);
+            font-size: 1.05rem;
+        }
+
+        .supply-card .k {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .supply-card .v {
+            font-size: 0.95rem;
+            font-weight: 800;
+            margin-top: 2px;
+        }
+
+        .energy-journey {
+            margin-top: 12px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: #ffffff;
+            padding: 12px;
+        }
+
+        .planning-card {
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            padding: 16px;
+            margin-bottom: 14px;
+        }
+
+        .planning-title {
+            font-size: 0.98rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .planning-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .planning-cell {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: #ffffff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .planning-cell .k {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+        }
+
+        .planning-cell .v {
+            font-size: 0.92rem;
+            font-weight: 800;
+        }
+
+        .action-list {
+            display: grid;
+            gap: 8px;
+        }
+
+        .action-item {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: #ffffff;
+            padding: 10px 12px;
+            font-size: 0.88rem;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .action-item span {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            white-space: nowrap;
+        }
+
+        .results-main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.35fr;
+            gap: 16px;
+        }
+
+        .result-left,
+        .result-right {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: #ffffff;
+            padding: 10px;
+        }
+
+        .result-right {
+            background: #f8fafc;
+        }
+
+        .result-stack {
+            display: grid;
+            gap: 8px;
+        }
+
+        .result-lists-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .compact-list {
+            max-height: 190px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .compact-note {
+            margin-top: 8px;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .results-main-grid .eco-circle {
+            width: 112px;
+            height: 112px;
+            margin: 10px auto;
+            border-width: 5px;
+        }
+
+        .results-main-grid .eco-number {
+            font-size: 2.2rem;
+        }
+
+        .insight-column {
+            display: grid;
+            gap: 12px;
+        }
+
+        .placeholder-box {
+            border: 1px dashed var(--border);
+            border-radius: 12px;
+            background: #ffffff;
+            padding: 12px;
+            color: var(--text-muted);
+            font-size: 0.88rem;
+        }
+
+        .journey-title {
+            font-size: 0.86rem;
+            color: var(--text-muted);
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .journey-row {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr auto 1fr;
+            gap: 8px;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .journey-node {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 8px;
+            text-align: center;
+            background: #f8fafc;
+        }
+
+        .journey-node i {
+            color: var(--primary);
+            font-size: 1.05rem;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .journey-node .k {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+        }
+
+        .journey-node .v {
+            font-size: 0.86rem;
+            font-weight: 700;
+        }
+
+        .journey-arrow {
+            color: var(--primary);
+            font-weight: 800;
+            text-align: center;
+        }
+        
+        /* ===== CHATBOT ===== */
+        .chatbot-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+        }
+        
+        .chatbot-toggle:hover {
+            box-shadow: 0 15px 30px rgba(79, 70, 229, 0.3);
+            transform: scale(1.1);
+        }
+        
+        .chatbot-container {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 360px;
+            max-height: 500px;
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border);
+            z-index: 999;
+        }
+        
+        .chatbot-header {
+            background: var(--primary);
+            color: white;
+            padding: 16px;
+            border-radius: 12px 12px 0 0;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .chatbot-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .chatbot-quick-replies {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 0 16px 12px;
+        }
+
+        .quick-reply-btn {
+            border: 1px solid var(--border);
+            background: #f9fafb;
+            color: var(--text-dark);
+            border-radius: 999px;
+            padding: 8px 12px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .quick-reply-btn:hover {
+            background: #eef2ff;
+            border-color: #c7d2fe;
+            color: var(--primary);
+        }
+
+        .typing-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            background: #f3f4f6;
+            color: var(--text-muted);
+            width: fit-content;
+        }
+
+        .typing-indicator span {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--text-muted);
+            animation: typingPulse 1s infinite ease-in-out;
+        }
+
+        .typing-indicator span:nth-child(2) { animation-delay: 0.15s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.3s; }
+
+        @keyframes typingPulse {
+            0%, 80%, 100% { transform: scale(0.65); opacity: 0.35; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+        
+        .message {
+            padding: 12px 14px;
+            border-radius: 8px;
+            max-width: 85%;
+            word-wrap: break-word;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        
+        .message.user {
+            background: var(--primary);
+            color: white;
+            align-self: flex-end;
+        }
+        
+        .message.bot {
+            background: #f3f4f6;
+            color: var(--text-dark);
+            align-self: flex-start;
+        }
+        
+        .chatbot-input {
+            display: flex;
+            gap: 10px;
+            padding: 12px;
+            border-top: 1px solid var(--border);
+        }
+        
+        .chatbot-input input {
+            flex: 1;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .chatbot-input button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            width: 40px;
+            cursor: pointer;
+        }
+        
+        /* ===== FOOTER ===== */
+        footer {
+            background: var(--white);
+            border-top: 1px solid var(--border);
+            margin-top: 40px;
+            padding: 30px 0;
+        }
+        
+        .footer-section h6 {
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-dark);
+        }
+        
+        .footer-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            display: block;
+            transition: color 0.2s;
+        }
+        
+        .footer-link:hover { color: var(--primary); }
+        
+        .footer-bottom {
+            border-top: 1px solid var(--border);
+            margin-top: 24px;
+            padding-top: 24px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .chatbot-container {
+                width: calc(100vw - 20px);
+                max-width: none;
+            }
+
+            .appliance-row {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+
+            .appliance-row .appliance-meta {
+                grid-column: 1 / -1;
+            }
+
+            .consumption-row {
+                grid-template-columns: 90px 1fr 48px;
+            }
+
+            .supply-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .planning-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .results-main-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .result-lists-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .journey-row {
+                grid-template-columns: 1fr;
+            }
+
+            .journey-arrow {
+                transform: rotate(90deg);
+            }
+            
+            .stat-card { margin-bottom: 16px; }
+            
+            .section-title { font-size: 1.25rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container-lg">
+            <a class="navbar-brand" href="#"><i class="bi bi-lightning-charge-fill"></i> EcoSmart</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="#"><i class="bi bi-house"></i> Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#tracking"><i class="bi bi-graph-up"></i> Tracking</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#tips"><i class="bi bi-lightbulb"></i> Tips</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/knowledge"><i class="bi bi-book"></i> Learn</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/model-info" target="_blank"><i class="bi bi-cpu"></i> ML Model <span class="ai-powered-badge">NEW</span></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main>
+        <div class="container-lg">
+            <!-- HERO SECTION -->
+            <section class="hero-shell">
+                <div class="hero-grid">
+                    <div>
+                        <div class="soft-badge mb-3"><i class="bi bi-shield-check"></i> Built-in appliance intelligence</div>
+                        <h1 style="font-size: 2.25rem; font-weight: 800; letter-spacing: -0.04em; margin-bottom: 10px;">A practical electricity dashboard for everyday homes</h1>
+                        <p style="color: var(--text-muted); font-size: 1.02rem; max-width: 760px; line-height: 1.7;">Use the built-in appliance database, let the system estimate usage when you are unsure, add any custom appliance, and see exactly how your bill is being calculated.</p>
+                        <div class="hero-actions">
+                            <a href="#calculator" class="btn btn-primary"><i class="bi bi-calculator"></i> Start Calculation</a>
+                            <a href="#education" class="btn btn-outline"><i class="bi bi-book"></i> Learn Units</a>
+                        </div>
+                    </div>
+                    <div class="catalog-grid" id="catalogPreview">
+                        <div class="catalog-card">
+                            <div class="icon"><i class="bi bi-lightning-charge"></i></div>
+                            <div class="label">Smart defaults</div>
+                            <div class="meta">Fill values automatically if you are not sure.</div>
+                        </div>
+                        <div class="catalog-card">
+                            <div class="icon"><i class="bi bi-list-check"></i></div>
+                            <div class="label">Transparent output</div>
+                            <div class="meta">See appliance-wise units, share, and loss notes.</div>
+                        </div>
+                        <div class="catalog-card">
+                            <div class="icon"><i class="bi bi-plus-circle"></i></div>
+                            <div class="label">Custom appliances</div>
+                            <div class="meta">Add vacuum, mixer, water heater, or anything else.</div>
+                        </div>
+                        <div class="catalog-card">
+                            <div class="icon"><i class="bi bi-battery-charging"></i></div>
+                            <div class="label">UPS handling</div>
+                            <div class="meta">Energy loss is adjusted automatically for realism.</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CALCULATOR & SUMMARY ROW -->
+            <div id="calculator" class="row mb-4 g-4 align-items-start">
+                <div class="col-lg-6">
+                    <div class="section-panel card">
+                        <div class="card-header"><i class="bi bi-diagram-3"></i> Appliance Database Calculator</div>
+                        <div class="card-body">
+                            <form id="usageForm">
+                                <input type="hidden" id="appliancesJson" name="appliances_json" value="[]">
+                                <input type="hidden" id="smartDefaultsInput" name="smart_defaults" value="true">
+
+                                <div class="row g-3 mb-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Total Units Override</label>
+                                        <input type="number" id="units" name="units" class="form-control" placeholder="Leave empty to auto-calculate" step="0.01" min="0">
+                                    </div>
+                                    <div class="col-md-6 d-flex align-items-end">
+                                        <div class="w-100">
+                                            <label class="form-label d-flex justify-content-between align-items-center">
+                                                <span>I don't know / use smart defaults</span>
+                                                <input type="checkbox" id="smartDefaultsToggle" checked>
+                                            </label>
+                                            <small class="text-muted">The system fills average counts and hours automatically.</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <label class="form-label mb-0">Appliance database</label>
+                                        <span class="soft-badge"><i class="bi bi-database"></i> Built-in + custom</span>
+                                    </div>
+                                    <div class="appliance-builder" id="applianceBuilder"></div>
+                                </div>
+
+                                <div class="d-flex flex-wrap gap-2 mb-3">
+                                    <button type="button" class="btn btn-outline" id="fillDefaultsBtn"><i class="bi bi-magic"></i> Fill Defaults</button>
+                                    <button type="button" class="btn btn-outline" id="addCustomApplianceBtn"><i class="bi bi-plus-circle"></i> Add Custom Appliance</button>
+                                    <button type="button" class="btn btn-outline" id="resetAppliancesBtn"><i class="bi bi-arrow-counterclockwise"></i> Reset</button>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary w-100" style="padding: 12px;">
+                                    <i class="bi bi-lightning"></i> Calculate Bill, Units & Breakdown
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="row g-3 mb-3">
+                        <div class="col-6 col-md-3">
+                            <div class="stat-card h-100">
+                                <div class="stat-icon primary"><i class="bi bi-lightning-charge"></i></div>
+                                <div class="stat-label">Today's Usage</div>
+                                <div class="stat-value" id="todayUsage">0</div>
+                                <small style="color: var(--text-muted);">Units</small>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="stat-card h-100">
+                                <div class="stat-icon warning"><i class="bi bi-receipt"></i></div>
+                                <div class="stat-label">Monthly Usage</div>
+                                <div class="stat-value" id="thisMonthUsage">0</div>
+                                <small style="color: var(--text-muted);">Units</small>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="stat-card h-100">
+                                <div class="stat-icon success"><i class="bi bi-check-circle"></i></div>
+                                <div class="stat-label">Eco Score</div>
+                                <div class="stat-value" id="ecoScoreText">--</div>
+                                <small style="color: var(--text-muted);">Efficiency</small>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="stat-card h-100">
+                                <div class="stat-icon danger"><i class="bi bi-bar-chart"></i></div>
+                                <div class="stat-label">Potential Save</div>
+                                <div class="stat-value" id="savingsPotential">--</div>
+                                <small style="color: var(--text-muted);">Per Month</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="visual-card" id="consumptionVisuals">
+                        <div class="visual-header">
+                            <h5><i class="bi bi-diagram-2"></i> Electricity Consumption Flow</h5>
+                            <span class="visual-muted" id="visualModeBadge">Using defaults</span>
+                        </div>
+
+                        <div class="flow-wrap">
+                            <div class="flow-node">
+                                <strong><i class="bi bi-lightning-charge-fill"></i> Grid Supply</strong>
+                                <span class="visual-muted">Incoming load</span>
+                            </div>
+                            <div class="flow-line"></div>
+                            <div class="flow-node">
+                                <strong><i class="bi bi-battery-charging"></i> Backup & Distribution</strong>
+                                <span class="visual-muted" id="upsLossVisual">UPS loss 0 units</span>
+                            </div>
+                            <div class="flow-line"></div>
+                            <div class="flow-node">
+                                <strong><i class="bi bi-house-check"></i> Home Appliances</strong>
+                                <span class="visual-muted" id="topConsumerVisual">Top: --</span>
+                            </div>
+                        </div>
+
+                        <div class="visual-header" style="margin-top: 6px;">
+                            <h5><i class="bi bi-bar-chart-line"></i> Category Split</h5>
+                            <span class="visual-muted" id="totalUnitsVisual">0 units/month</span>
+                        </div>
+
+                        <div class="consumption-bars" id="consumptionBars">
+                            <div class="consumption-row">
+                                <div class="consumption-label">Cooling</div>
+                                <div class="consumption-track"><div class="consumption-fill" style="width: 55%"></div></div>
+                                <div class="consumption-value">55%</div>
+                            </div>
+                            <div class="consumption-row">
+                                <div class="consumption-label">Kitchen</div>
+                                <div class="consumption-track"><div class="consumption-fill" style="width: 25%"></div></div>
+                                <div class="consumption-value">25%</div>
+                            </div>
+                            <div class="consumption-row">
+                                <div class="consumption-label">Other</div>
+                                <div class="consumption-track"><div class="consumption-fill" style="width: 20%"></div></div>
+                                <div class="consumption-value">20%</div>
+                            </div>
+                        </div>
+
+                        <div class="supply-grid">
+                            <div class="supply-card">
+                                <i class="bi bi-calendar-day"></i>
+                                <div class="k">Daily avg</div>
+                                <div class="v" id="dailyAvgVisual">0.0 u</div>
+                            </div>
+                            <div class="supply-card">
+                                <i class="bi bi-calendar-month"></i>
+                                <div class="k">Monthly</div>
+                                <div class="v" id="monthlyVisual">0 u</div>
+                            </div>
+                            <div class="supply-card">
+                                <i class="bi bi-currency-rupee"></i>
+                                <div class="k">Estimated bill</div>
+                                <div class="v" id="billVisual">Rs0</div>
+                            </div>
+                        </div>
+
+                        <div class="energy-journey">
+                            <div class="journey-title">Pictorial representation: supply to end-use</div>
+                            <div class="journey-row">
+                                <div class="journey-node">
+                                    <i class="bi bi-lightning-charge-fill"></i>
+                                    <div class="k">Grid in</div>
+                                    <div class="v" id="journeyGrid">0 u</div>
+                                </div>
+                                <div class="journey-arrow">&rarr;</div>
+                                <div class="journey-node">
+                                    <i class="bi bi-battery-charging"></i>
+                                    <div class="k">Loss / backup</div>
+                                    <div class="v" id="journeyLoss">0 u</div>
+                                </div>
+                                <div class="journey-arrow">&rarr;</div>
+                                <div class="journey-node">
+                                    <i class="bi bi-house-door-fill"></i>
+                                    <div class="k">Home usage</div>
+                                    <div class="v" id="journeyUsage">0 u</div>
+                                </div>
+                            </div>
+                            <div class="visual-muted" id="journeyNote">Based on current appliance plan and reading input.</div>
+                        </div>
+                    </div>
+
+                    <div class="planning-card" id="planningCard">
+                        <div class="planning-title"><i class="bi bi-bullseye"></i> Energy Planning Hub</div>
+                        <div class="planning-grid">
+                            <div class="planning-cell">
+                                <div class="k">Top consumer</div>
+                                <div class="v" id="planTop">--</div>
+                            </div>
+                            <div class="planning-cell">
+                                <div class="k">Current bill</div>
+                                <div class="v" id="planBill">Rs0</div>
+                            </div>
+                            <div class="planning-cell">
+                                <div class="k">Monthly units</div>
+                                <div class="v" id="planUnits">0 u</div>
+                            </div>
+                        </div>
+                        <div class="action-list" id="actionList">
+                            <div class="action-item"><strong>Set AC to 24°C</strong><span>High impact</span></div>
+                            <div class="action-item"><strong>Shift EV to off-peak</strong><span>Bill saver</span></div>
+                            <div class="action-item"><strong>Track UPS backup hours</strong><span>Loss control</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TRACKING SECTION -->
+            <div id="tracking" class="card mb-4">
+                <div class="card-header"><i class="bi bi-graph-up"></i> Usage Tracking & Analysis</div>
+                <div class="card-body">
+                    <ul class="nav nav-tabs" role="tablist" style="margin-bottom: 20px;">
+                        <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#weeklyTab"><i class="bi bi-calendar-week"></i> Weekly</a></li>
+                        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#billTab"><i class="bi bi-bar-chart"></i> Bill Comparison</a></li>
+                        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#historyTab"><i class="bi bi-clock-history"></i> History</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="weeklyTab">
+                            <div class="chart-container">
+                                <canvas id="weeklyChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="billTab">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="stat-card">
+                                        <div class="stat-icon warning"><i class="bi bi-calendar"></i></div>
+                                        <div class="stat-label">This Month</div>
+                                        <div class="stat-value" id="billThisMonth">₹0</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="stat-card">
+                                        <div class="stat-icon"><i class="bi bi-calendar"></i></div>
+                                        <div class="stat-label">Last Month</div>
+                                        <div class="stat-value" id="billLastMonth">₹0</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="text-align: center; margin-top: 20px; padding: 20px; background: #eef2ff; border-radius: 12px;">
+                                <div style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 8px;">Bill Change</div>
+                                <div style="font-size: 2rem; font-weight: 700;" id="billChange">--</div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="historyTab">
+                            <div style="text-align: center; color: var(--text-muted); padding: 40px 20px;">
+                                <i class="bi bi-inbox" style="font-size: 3rem; opacity: 0.5;"></i>
+                                <p style="margin-top: 12px;">Historical data will appear here after your first calculation</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FULL WIDTH RESULTS SECTION -->
+            <div id="resultsSection" class="row mb-4 g-4 align-items-start">
+                <div class="col-lg-8">
+                    <div class="card section-panel" id="resultsCard">
+                        <div class="card-header"><i class="bi bi-calculator"></i> Calculation Results</div>
+                        <div class="card-body">
+                            <div class="results-main-grid">
+                                <div class="result-left">
+                                    <div class="result-stack">
+                                        <div class="summary-pill">
+                                            <strong id="resultBill">₹0</strong>
+                                            <span style="color: var(--text-muted);">Current bill from your appliance plan</span>
+                                        </div>
+                                        <div class="summary-pill">
+                                            <strong id="resultPredicted">₹0</strong>
+                                            <span style="color: var(--text-muted);">AI predicted bill for the same usage</span>
+                                        </div>
+                                    </div>
+                                    <div class="eco-circle good" style="margin-top: 14px;">
+                                        <div class="eco-number" id="ecoScore">0</div>
+                                        <div class="eco-label" id="ecoLabel">Score</div>
+                                    </div>
+                                    <div class="mt-3 p-3" style="border-radius: 12px; background: #f8fafc; border: 1px solid var(--border);">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <span style="font-weight: 700;">Top appliance</span>
+                                            <span id="topApplianceText" class="soft-badge">--</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span style="font-weight: 700;">UPS loss overhead</span>
+                                            <span id="backupLossText" class="soft-badge">0 units</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="result-right">
+                                    <div class="result-lists-grid">
+                                        <div>
+                                            <div class="soft-badge mb-2"><i class="bi bi-list-ul"></i> Transparency</div>
+                                            <div id="calculationSummary" class="breakdown-list compact-list"></div>
+                                            <div id="summaryMoreNote" class="compact-note"></div>
+                                        </div>
+                                        <div>
+                                            <div class="soft-badge mb-2"><i class="bi bi-graph-up-arrow"></i> Appliance Share</div>
+                                            <div id="breakdownList" class="breakdown-list compact-list"></div>
+                                            <div id="breakdownMoreNote" class="compact-note"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="insight-column">
+                        <div class="card section-panel" id="insightsCard">
+                            <div class="card-header"><i class="bi bi-robot"></i> AI Insights</div>
+                            <div class="card-body" id="insightsContainer">
+                                <div class="insight-item">Submit your usage to generate personalized insights and appliance-level optimization guidance.</div>
+                                <div class="insight-item">This section updates after each reading to keep your plan practical and realistic.</div>
+                            </div>
+                        </div>
+                        <div class="placeholder-box">
+                            <strong style="display:block; margin-bottom:6px; color: var(--text-dark);">Reading Quality</strong>
+                            The model combines your manual reading and appliance profile. More accurate hours and counts produce tighter bill predictions.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TIPS SECTION -->
+            <div id="tips" class="mb-4">
+                <div class="section-title"><i class="bi bi-lightbulb"></i> Personalized Savings Tips</div>
+                <div class="row" id="tipsContainer">
+                    <div class="col-12" style="text-align: center; color: var(--text-muted); padding: 40px 20px;">
+                        Calculate your usage to see personalized tips that can save you money
+                    </div>
+                </div>
+            </div>
+
+            <!-- EDUCATION SECTION -->
+            <div id="education" class="mb-4">
+                <div class="section-title"><i class="bi bi-book"></i> Education Section</div>
+                <div class="card section-panel">
+                    <div class="card-body">
+                        <div class="accordion" id="educationAccordion">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#educationOne">What is a unit?</button>
+                                </h2>
+                                <div id="educationOne" class="accordion-collapse collapse show" data-bs-parent="#educationAccordion">
+                                    <div class="accordion-body">A unit is 1 kilowatt-hour (kWh). If a 1000W appliance runs for 1 hour, it uses 1 unit.</div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#educationTwo">How appliances consume electricity</button>
+                                </h2>
+                                <div id="educationTwo" class="accordion-collapse collapse" data-bs-parent="#educationAccordion">
+                                    <div class="accordion-body">The system multiplies power, count, and hours to estimate daily usage, then scales it to monthly units automatically.</div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#educationThree">How to reduce usage</button>
+                                </h2>
+                                <div id="educationThree" class="accordion-collapse collapse" data-bs-parent="#educationAccordion">
+                                    <div class="accordion-body">Use AC at 24°C, charge EVs during off-peak hours, and avoid unnecessary standby loads for steady savings.</div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#educationFour">Why UPS is handled differently</button>
+                                </h2>
+                                <div id="educationFour" class="accordion-collapse collapse" data-bs-parent="#educationAccordion">
+                                    <div class="accordion-body">UPS and inverter backup usage include a realistic loss overhead so the estimate reflects real household conditions.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROFILE & GOALS SECTION -->
+            <div class="row mb-4">
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-header"><i class="bi bi-person-circle"></i> Your Profile</div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label class="form-label">Family Size</label>
+                                <select id="familySize" class="form-select">
+                                    <option value="">Select...</option>
+                                    <option value="1-2">1-2 Members (Small)</option>
+                                    <option value="3-4">3-4 Members (Medium)</option>
+                                    <option value="5+">5+ Members (Large)</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Property Type</label>
+                                <select id="propertyType" class="form-select">
+                                    <option value="">Select...</option>
+                                    <option value="apartment">Apartment</option>
+                                    <option value="house">Independent House</option>
+                                    <option value="villa">Villa</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-primary w-100" id="updateProfileBtn">
+                                <i class="bi bi-check-circle"></i> Save Profile
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-header"><i class="bi bi-target"></i> Savings Goal</div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label class="form-label">Target Monthly Savings (₹)</label>
+                                <input type="number" id="billGoal" class="form-control" placeholder="e.g., 500" min="0" step="50">
+                            </div>
+                            <button class="btn btn-primary w-100" id="setGoalBtn">
+                                <i class="bi bi-flag"></i> Set Goal
+                            </button>
+                            <div id="goalStatus" style="margin-top: 16px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container-lg">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="footer-section">
+                        <a class="navbar-brand d-flex align-items-center mb-3" href="#" style="font-size: 1.3rem; font-weight: 700; color: var(--primary); text-decoration: none;">
+                            <i class="bi bi-lightning-charge-fill" style="margin-right: 8px;"></i> EcoSmart
+                        </a>
+                        <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0;">Smart energy management for sustainable living</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="footer-section">
+                        <h6>Product</h6>
+                        <a href="#" class="footer-link">Dashboard</a>
+                        <a href="/knowledge" class="footer-link">Learn</a>
+                        <a href="#" class="footer-link">Pricing</a>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="footer-section">
+                        <h6>Resources</h6>
+                        <a href="#" class="footer-link">Blog</a>
+                        <a href="#" class="footer-link">Documentation</a>
+                        <a href="#" class="footer-link">Support</a>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="footer-section">
+                        <h6>Legal</h6>
+                        <a href="#" class="footer-link">Privacy</a>
+                        <a href="#" class="footer-link">Terms</a>
+                        <a href="#" class="footer-link">Contact</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 EcoSmart. All rights reserved. Helping you save energy, one unit at a time.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- CHATBOT BUTTON -->
+    <button id="chatbotToggle" class="chatbot-toggle" onclick="toggleChatbot()" title="Chat with Assistant" aria-controls="chatbotWindow" aria-expanded="false">
+        <i class="bi bi-chat-dots"></i>
+    </button>
+
+    <!-- CHATBOT WINDOW -->
+    <div id="chatbotWindow" class="chatbot-container" style="display: none;">
+        <div class="chatbot-header">
+            <span><i class="bi bi-robot"></i> Energy Assistant</span>
+            <button type="button" onclick="closeChatbot()" style="background: none; border: none; color: white; cursor: pointer; font-size: 1.2rem;">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+        <div class="chatbot-body" id="chatbotBody">
+            <div class="message bot">
+                Hi! 👋 I'm your energy assistant. Ask me anything about saving electricity, reducing bills, or optimizing your appliances!
+            </div>
+        </div>
+        <div class="chatbot-quick-replies" id="chatbotQuickReplies"></div>
+        <div class="chatbot-input">
+            <input type="text" id="chatbotInput" placeholder="Type your question..." onkeypress="handleChatInput(event)">
+            <button onclick="sendChatMessage()" title="Send"><i class="bi bi-send"></i></button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let weeklyChart = null;
+        let chatbotOpen = false;
+        let applianceCatalog = [];
+        let supportData = { education: [], emergency: {} };
+
+        const defaultQuickReplies = [
+            'How do I reduce my bill?',
+            'Why is my usage high?',
+            'AC tips',
+            'EV charging guide'
+        ];
+
+        const applianceIcons = {
+            fan: 'bi-fan',
+            ac: 'bi-snow',
+            fridge: 'bi-box-seam',
+            tv: 'bi-display',
+            induction: 'bi-fire',
+            ev: 'bi-ev-station-fill',
+            ups: 'bi-battery-charging',
+            lights: 'bi-lightbulb',
+        };
+
+        const fallbackCatalog = [
+            { id: 'fan', label: 'Fan', power_watts: 75, default_count: 3, default_hours: 10, category: 'Cooling', note: 'Typical ceiling fan load' },
+            { id: 'ac', label: 'AC', power_watts: 1500, default_count: 1, default_hours: 6, category: 'Cooling', note: '1.5 ton split AC average load' },
+            { id: 'fridge', label: 'Fridge', power_watts: 150, default_count: 1, default_hours: 24, category: 'Kitchen', note: 'Runs throughout the day' },
+            { id: 'tv', label: 'TV', power_watts: 100, default_count: 1, default_hours: 4, category: 'Entertainment', note: 'LED TV average usage' },
+            { id: 'induction', label: 'Induction', power_watts: 1800, default_count: 1, default_hours: 2, category: 'Kitchen', note: 'High-power cooking appliance' },
+            { id: 'ev', label: 'EV Charger', power_watts: 3300, default_count: 1, default_hours: 2, category: 'Transport', note: 'Best during off-peak hours' },
+            { id: 'ups', label: 'UPS / Inverter', power_watts: 900, default_count: 1, default_hours: 4, category: 'Backup', note: 'Includes 15% backup loss overhead' },
+            { id: 'lights', label: 'Lights', power_watts: 15, default_count: 8, default_hours: 6, category: 'Lighting', note: 'Assumes LED lighting' },
+        ];
+
+        function getCatalog() {
+            return applianceCatalog.length ? applianceCatalog : fallbackCatalog;
+        }
+
+        function getApplianceIcon(id) {
+            return applianceIcons[id] || 'bi-cpu';
+        }
+
+        function escapeHtml(text) {
+            return String(text || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function formatBotText(text) {
+            return escapeHtml(text)
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\n/g, '<br>');
+        }
+
+        function renderSupportModule(data) {
+            if (!data) return;
+            supportData = data;
+        }
+
+        function createApplianceRow(item, isCustom = false) {
+            const row = document.createElement('div');
+            row.className = `appliance-row${isCustom ? ' custom-row' : ''}`;
+            row.dataset.applianceId = item.id || '';
+            row.dataset.isCustom = isCustom ? 'true' : 'false';
+
+            const countValue = item.count ?? item.default_count ?? 1;
+            const hoursValue = item.hours ?? item.default_hours ?? 1;
+            const wattValue = item.power_watts ?? 0;
+            const nameValue = item.label || item.name || 'Custom Appliance';
+            const noteValue = item.note || 'Enter your own appliance';
+            const disabledAttr = document.getElementById('smartDefaultsToggle')?.checked && !isCustom ? 'disabled' : '';
+
+            row.innerHTML = isCustom ? `
+                <div class="appliance-meta">
+                    <input class="form-control appliance-name" value="${escapeHtml(nameValue)}" placeholder="Appliance name">
+                    <div class="appliance-note">Add any appliance not listed in the built-in database.</div>
+                </div>
+                <input class="form-control appliance-power" type="number" min="0" step="1" value="${wattValue}" placeholder="Watts">
+                <input class="form-control appliance-count" type="number" min="0" step="1" value="${countValue}" placeholder="Count">
+                <input class="form-control appliance-hours" type="number" min="0" step="0.5" value="${hoursValue}" placeholder="Hours/day">
+                <button type="button" class="btn btn-outline remove-appliance-btn"><i class="bi bi-trash"></i></button>
+            ` : `
+                <div class="appliance-meta">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="bi ${getApplianceIcon(item.id)}" style="color: var(--primary);"></i>
+                        <div class="appliance-title">${escapeHtml(nameValue)}</div>
+                    </div>
+                    <div class="appliance-note">${escapeHtml(noteValue)}</div>
+                    <span class="soft-badge">${escapeHtml(item.category || 'General')} • ${wattValue}W</span>
+                </div>
+                <input class="form-control appliance-count" type="number" min="0" step="1" value="${countValue}" placeholder="Count" ${disabledAttr}>
+                <input class="form-control appliance-hours" type="number" min="0" step="0.5" value="${hoursValue}" placeholder="Hours/day" ${disabledAttr}>
+                <input class="form-control appliance-power" type="number" min="0" step="1" value="${wattValue}" placeholder="Watts" ${disabledAttr}>
+                <div style="font-size: 0.85rem; color: var(--text-muted);">${item.id === 'ups' ? '15% loss added' : 'Built-in default'}</div>
+            `;
+
+            if (isCustom) {
+                row.querySelector('.remove-appliance-btn')?.addEventListener('click', () => {
+                    row.remove();
+                    syncAppliancePayload();
+                });
+            }
+
+            row.querySelectorAll('input').forEach((input) => {
+                input.addEventListener('input', syncAppliancePayload);
+            });
+
+            return row;
+        }
+
+        function renderApplianceBuilder() {
+            const builder = document.getElementById('applianceBuilder');
+            if (!builder) return;
+
+            builder.innerHTML = '';
+            getCatalog().forEach((item) => builder.appendChild(createApplianceRow(item, false)));
+            syncAppliancePayload();
+            updateSmartDefaultState();
+        }
+
+        function updateSmartDefaultState() {
+            const smartMode = document.getElementById('smartDefaultsToggle')?.checked;
+            const smartHidden = document.getElementById('smartDefaultsInput');
+            if (smartHidden) smartHidden.value = smartMode ? 'true' : 'false';
+
+            document.querySelectorAll('#applianceBuilder .appliance-row').forEach((row) => {
+                if (row.dataset.isCustom === 'true') {
+                    return;
+                }
+
+                const applianceId = row.dataset.applianceId;
+                const item = getCatalog().find((entry) => entry.id === applianceId);
+                const countInput = row.querySelector('.appliance-count');
+                const hoursInput = row.querySelector('.appliance-hours');
+                const powerInput = row.querySelector('.appliance-power');
+
+                [countInput, hoursInput, powerInput].forEach((input) => {
+                    if (input) input.disabled = smartMode;
+                });
+
+                if (smartMode && item) {
+                    if (countInput) countInput.value = item.default_count;
+                    if (hoursInput) hoursInput.value = item.default_hours;
+                    if (powerInput) powerInput.value = item.power_watts;
+                }
+            });
+
+            syncAppliancePayload();
+        }
+
+        function addCustomApplianceRow() {
+            const builder = document.getElementById('applianceBuilder');
+            if (!builder) return;
+
+            builder.appendChild(createApplianceRow({ label: 'Custom Appliance', power_watts: 0, default_count: 1, default_hours: 1 }, true));
+            syncAppliancePayload();
+        }
+
+        function fillDefaultAppliances() {
+            document.getElementById('smartDefaultsToggle').checked = true;
+            document.getElementById('smartDefaultsInput').value = 'true';
+            renderApplianceBuilder();
+        }
+
+        function resetAppliances() {
+            document.getElementById('units').value = '';
+            fillDefaultAppliances();
+        }
+
+        function collectApplianceItems() {
+            const items = [];
+            document.querySelectorAll('#applianceBuilder .appliance-row').forEach((row) => {
+                const isCustom = row.dataset.isCustom === 'true';
+                const applianceId = row.dataset.applianceId || '';
+                const count = row.querySelector('.appliance-count')?.value || 0;
+                const hours = row.querySelector('.appliance-hours')?.value || 0;
+                const power = row.querySelector('.appliance-power')?.value || 0;
+                const name = isCustom ? row.querySelector('.appliance-name')?.value || 'Custom Appliance' : '';
+
+                items.push({
+                    appliance_id: applianceId,
+                    name: name,
+                    count: count,
+                    hours: hours,
+                    power_watts: power,
+                    use_default: document.getElementById('smartDefaultsToggle')?.checked && !isCustom,
+                });
+            });
+            return items;
+        }
+
+        function syncAppliancePayload() {
+            const payload = collectApplianceItems();
+            const hidden = document.getElementById('appliancesJson');
+            if (hidden) hidden.value = JSON.stringify(payload);
+            const smartHidden = document.getElementById('smartDefaultsInput');
+            if (smartHidden) smartHidden.value = document.getElementById('smartDefaultsToggle')?.checked ? 'true' : 'false';
+        }
+
+        function renderBreakdown(data) {
+            const summaryContainer = document.getElementById('calculationSummary');
+            const breakdownContainer = document.getElementById('breakdownList');
+            const topApplianceText = document.getElementById('topApplianceText');
+            const backupLossText = document.getElementById('backupLossText');
+            const summaryMoreNote = document.getElementById('summaryMoreNote');
+            const breakdownMoreNote = document.getElementById('breakdownMoreNote');
+
+            summaryContainer.innerHTML = '';
+            breakdownContainer.innerHTML = '';
+
+            const allSummary = data.calculation_summary || [];
+            const visibleSummary = allSummary.slice(0, 4);
+            visibleSummary.forEach((line) => {
+                const div = document.createElement('div');
+                div.className = 'breakdown-item';
+                div.textContent = line;
+                summaryContainer.appendChild(div);
+            });
+            if (summaryMoreNote) {
+                const hiddenCount = Math.max(0, allSummary.length - visibleSummary.length);
+                summaryMoreNote.textContent = hiddenCount ? `+${hiddenCount} more details available after adjusting appliances` : '';
+            }
+
+            const allBreakdown = data.appliance_breakdown || [];
+            const visibleBreakdown = allBreakdown.slice(0, 4);
+            visibleBreakdown.forEach((item) => {
+                const div = document.createElement('div');
+                div.className = 'breakdown-item';
+                div.innerHTML = `
+                    <strong>${escapeHtml(item.name)} - ${item.monthly_units.toFixed(1)} units/month</strong>
+                    <div style="color: var(--text-muted); font-size: 0.9rem;">${item.count} appliance(s) × ${item.power_watts}W × ${item.hours}h/day = ${item.share_percent}% of total</div>
+                    <div style="color: var(--text-muted); font-size: 0.82rem; margin-top: 4px;">${escapeHtml(item.note || '')}</div>
+                `;
+                breakdownContainer.appendChild(div);
+            });
+            if (breakdownMoreNote) {
+                const hiddenCount = Math.max(0, allBreakdown.length - visibleBreakdown.length);
+                breakdownMoreNote.textContent = hiddenCount ? `+${hiddenCount} more appliances in your breakdown` : '';
+            }
+
+            if (topApplianceText) {
+                topApplianceText.textContent = data.top_appliance ? `${data.top_appliance.name} (${data.top_appliance.share_percent}%)` : '--';
+            }
+            if (backupLossText) {
+                backupLossText.textContent = `${data.backup_loss_units || 0} units`;
+            }
+        }
+
+        function renderConsumptionVisuals(data) {
+            const rows = data.appliance_breakdown || [];
+            const bars = document.getElementById('consumptionBars');
+            const topConsumerVisual = document.getElementById('topConsumerVisual');
+            const upsLossVisual = document.getElementById('upsLossVisual');
+            const totalUnitsVisual = document.getElementById('totalUnitsVisual');
+            const dailyAvgVisual = document.getElementById('dailyAvgVisual');
+            const monthlyVisual = document.getElementById('monthlyVisual');
+            const billVisual = document.getElementById('billVisual');
+            const visualModeBadge = document.getElementById('visualModeBadge');
+            const journeyGrid = document.getElementById('journeyGrid');
+            const journeyLoss = document.getElementById('journeyLoss');
+            const journeyUsage = document.getElementById('journeyUsage');
+            const journeyNote = document.getElementById('journeyNote');
+            const planTop = document.getElementById('planTop');
+            const planBill = document.getElementById('planBill');
+            const planUnits = document.getElementById('planUnits');
+            const actionList = document.getElementById('actionList');
+
+            if (visualModeBadge) {
+                visualModeBadge.textContent = data.estimated ? 'Estimated from appliance defaults' : 'Using provided units';
+            }
+
+            if (topConsumerVisual) {
+                topConsumerVisual.textContent = data.top_appliance ? `Top: ${data.top_appliance.name}` : 'Top: --';
+            }
+            if (upsLossVisual) {
+                upsLossVisual.textContent = `UPS loss ${Number(data.backup_loss_units || 0).toFixed(1)} units`;
+            }
+            if (totalUnitsVisual) {
+                totalUnitsVisual.textContent = `${Number(data.units || 0).toFixed(1)} units/month`;
+            }
+            if (dailyAvgVisual) {
+                dailyAvgVisual.textContent = `${(Number(data.units || 0) / 30).toFixed(1)} u`;
+            }
+            if (monthlyVisual) {
+                monthlyVisual.textContent = `${Number(data.units || 0).toFixed(0)} u`;
+            }
+            if (billVisual) {
+                billVisual.textContent = `Rs${Number(data.bill || 0).toFixed(0)}`;
+            }
+
+            const monthlyUnits = Number(data.units || 0);
+            const lossUnits = Number(data.backup_loss_units || 0);
+            if (journeyGrid) {
+                journeyGrid.textContent = `${(monthlyUnits + lossUnits).toFixed(1)} u`;
+            }
+            if (journeyLoss) {
+                journeyLoss.textContent = `${lossUnits.toFixed(1)} u`;
+            }
+            if (journeyUsage) {
+                journeyUsage.textContent = `${monthlyUnits.toFixed(1)} u`;
+            }
+            if (journeyNote) {
+                journeyNote.textContent = data.estimated
+                    ? 'Auto-estimated from appliance defaults and entered values.'
+                    : 'Directly influenced by your reading input and appliance mix.';
+            }
+
+            if (planTop) {
+                planTop.textContent = data.top_appliance ? data.top_appliance.name : '--';
+            }
+            if (planBill) {
+                planBill.textContent = `Rs${Number(data.bill || 0).toFixed(0)}`;
+            }
+            if (planUnits) {
+                planUnits.textContent = `${Number(data.units || 0).toFixed(1)} u`;
+            }
+
+            if (actionList) {
+                const topName = String(data.top_appliance?.name || '').toLowerCase();
+                const dynamicActions = [
+                    { text: 'Run heavy appliances outside 6-9 PM', tag: 'Tariff smart' },
+                    { text: 'Review standby loads every night', tag: 'Daily habit' },
+                    { text: 'Use calculator weekly to track drift', tag: 'Consistency' },
+                ];
+
+                if (topName.includes('ac')) {
+                    dynamicActions[0] = { text: 'Set AC to 24°C and use sleep mode', tag: 'High impact' };
+                } else if (topName.includes('ev')) {
+                    dynamicActions[0] = { text: 'Shift EV charging to off-peak windows', tag: 'Bill saver' };
+                } else if (topName.includes('ups')) {
+                    dynamicActions[0] = { text: 'Reduce UPS backup runtime where possible', tag: 'Loss control' };
+                } else if (topName.includes('induction')) {
+                    dynamicActions[0] = { text: 'Batch induction cooking to cut runtime', tag: 'Kitchen saver' };
+                }
+
+                actionList.innerHTML = dynamicActions
+                    .map((item) => `<div class="action-item"><strong>${escapeHtml(item.text)}</strong><span>${escapeHtml(item.tag)}</span></div>`)
+                    .join('');
+            }
+
+            if (!bars) return;
+            bars.innerHTML = '';
+
+            const topRows = rows.slice(0, 4);
+            if (!topRows.length) {
+                bars.innerHTML = `
+                    <div class="consumption-row">
+                        <div class="consumption-label">No data</div>
+                        <div class="consumption-track"><div class="consumption-fill" style="width: 0%"></div></div>
+                        <div class="consumption-value">0%</div>
+                    </div>
+                `;
+                return;
+            }
+
+            topRows.forEach((item) => {
+                const percent = Math.max(0, Math.min(100, Number(item.share_percent || 0)));
+                const row = document.createElement('div');
+                row.className = 'consumption-row';
+                row.innerHTML = `
+                    <div class="consumption-label" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</div>
+                    <div class="consumption-track"><div class="consumption-fill" style="width: ${percent}%"></div></div>
+                    <div class="consumption-value">${percent.toFixed(0)}%</div>
+                `;
+                bars.appendChild(row);
+            });
+        }
+
+        // Form submission
+        document.getElementById('usageForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            syncAppliancePayload();
+            const formData = new FormData(document.getElementById('usageForm'));
+
+            try {
+                const response = await axios.post('/api/calculate', formData);
+                if (response.data.success) {
+                    updateResults(response.data);
+                }
+            } catch (error) {
+                alert('Error calculating usage');
+                console.error(error);
+            }
+        });
+
+        function updateResults(data) {
+            document.getElementById('resultsCard').style.display = 'block';
+            document.getElementById('insightsCard').style.display = 'block';
+
+            document.getElementById('resultBill').textContent = `₹${data.bill}`;
+            document.getElementById('resultPredicted').textContent = `₹${data.predicted}`;
+            document.getElementById('ecoScore').textContent = data.eco_score;
+            document.getElementById('ecoScoreText').textContent = `${data.eco_score}/100`;
+            document.getElementById('savingsPotential').textContent = `₹${Math.max(0, Math.round((data.bill - data.predicted) * 0.3))}`;
+            document.getElementById('todayUsage').textContent = (Number(data.units || 0) / 30).toFixed(1);
+            document.getElementById('thisMonthUsage').textContent = Number(data.units || 0).toFixed(1);
+            document.getElementById('billThisMonth').textContent = `₹${Number(data.monthly_bill || data.bill || 0).toFixed(0)}`;
+
+            const ecoCircle = document.querySelector('.eco-circle');
+            ecoCircle.className = 'eco-circle';
+            if (data.eco_score >= 80) ecoCircle.classList.add('excellent');
+            else if (data.eco_score >= 60) ecoCircle.classList.add('good');
+            else ecoCircle.classList.add('poor');
+
+            document.getElementById('ecoLabel').textContent = data.eco_label || 'Score';
+
+            const insightsHTML = (data.insights || []).map((insight) => `<div class="insight-item">${insight}</div>`).join('');
+            document.getElementById('insightsContainer').innerHTML = insightsHTML || '<p style="color: var(--text-muted);">No insights available</p>';
+
+            const tipsHTML = (data.tips || []).map((tip) => `
+                <div class="col-md-6">
+                    <div class="tip-card">
+                        <div class="tip-icon">${tip.icon}</div>
+                        <div class="tip-title">${tip.title}</div>
+                        <div class="tip-description">${tip.description}</div>
+                        <div><span class="tip-savings">${tip.savings}</span><span class="tip-level">${tip.level}</span></div>
+                    </div>
+                </div>
+            `).join('');
+            document.getElementById('tipsContainer').innerHTML = tipsHTML || '<p style="color: var(--text-muted);">No tips available</p>';
+
+            renderBreakdown(data);
+            renderConsumptionVisuals(data);
+        }
+
+        // Chatbot functions
+        function toggleChatbot() {
+            if (chatbotOpen) {
+                closeChatbot();
+            } else {
+                openChatbot();
+            }
+        }
+
+        function openChatbot() {
+            chatbotOpen = true;
+            document.getElementById('chatbotWindow').style.display = 'flex';
+            document.getElementById('chatbotToggle').setAttribute('aria-expanded', 'true');
+            renderQuickReplies(defaultQuickReplies);
+            setTimeout(() => document.getElementById('chatbotInput').focus(), 0);
+        }
+
+        function closeChatbot() {
+            chatbotOpen = false;
+            document.getElementById('chatbotWindow').style.display = 'none';
+            document.getElementById('chatbotToggle').setAttribute('aria-expanded', 'false');
+        }
+
+        function renderQuickReplies(replies) {
+            const container = document.getElementById('chatbotQuickReplies');
+            if (!container) return;
+
+            container.innerHTML = '';
+            (replies || []).forEach((reply) => {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'quick-reply-btn';
+                button.textContent = reply;
+                button.addEventListener('click', () => sendQuickReply(reply));
+                container.appendChild(button);
+            });
+        }
+
+        function handleChatInput(event) {
+            if (event.key === 'Enter') sendChatMessage();
+        }
+
+        function sendQuickReply(text) {
+            const input = document.getElementById('chatbotInput');
+            input.value = text;
+            sendChatMessage();
+        }
+
+        async function sendChatMessage() {
+            const input = document.getElementById('chatbotInput');
+            const message = input.value.trim();
+            if (!message) return;
+
+            addChatMessage(message, 'user');
+            input.value = '';
+
+            const body = document.getElementById('chatbotBody');
+            const typing = document.createElement('div');
+            typing.className = 'typing-indicator';
+            typing.id = 'chatbotTyping';
+            typing.innerHTML = '<span></span><span></span><span></span>';
+            body.appendChild(typing);
+            body.scrollTop = body.scrollHeight;
+
+            try {
+                const response = await axios.post('/api/chatbot', { message });
+                document.getElementById('chatbotTyping')?.remove();
+
+                if (response.data.success) {
+                    addChatMessage(response.data.response, 'bot');
+                    renderQuickReplies(response.data.quick_replies || defaultQuickReplies);
+                } else {
+                    addChatMessage(response.data.response || 'Sorry, I could not process that message.', 'bot');
+                    renderQuickReplies(defaultQuickReplies);
+                }
+            } catch (error) {
+                document.getElementById('chatbotTyping')?.remove();
+                addChatMessage('Sorry, I encountered an error. Please try again.', 'bot');
+                renderQuickReplies(defaultQuickReplies);
+            }
+        }
+
+        function addChatMessage(text, sender) {
+            const body = document.getElementById('chatbotBody');
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `message ${sender}`;
+            msgDiv.innerHTML = formatBotText(text);
+            body.appendChild(msgDiv);
+            body.scrollTop = body.scrollHeight;
+        }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && chatbotOpen) {
+                closeChatbot();
+            }
+        });
+
+        // Load page data
+        window.addEventListener('load', async () => {
+            try {
+                const referenceResponse = await axios.get('/api/reference-data');
+                supportData = referenceResponse.data || supportData;
+                applianceCatalog = supportData.catalog || fallbackCatalog;
+                renderApplianceBuilder();
+            } catch (error) {
+                applianceCatalog = fallbackCatalog;
+                renderApplianceBuilder();
+            }
+
+            try {
+                const response = await axios.get('/api/daily-tracking');
+                const data = response.data;
+
+                document.getElementById('todayUsage').textContent = (data.monthly.units || 0).toFixed(1);
+                document.getElementById('thisMonthUsage').textContent = (data.monthly.units || 0).toFixed(1);
+                document.getElementById('billThisMonth').textContent = `₹${(data.monthly.bill || 0).toFixed(0)}`;
+                document.getElementById('billLastMonth').textContent = `₹${(data.comparison.last_month || 0).toFixed(0)}`;
+
+                if (data.comparison.percent_change) {
+                    const icon = data.comparison.percent_change > 0 ? '📈' : '📉';
+                    document.getElementById('billChange').innerHTML = `${icon} <strong>${data.comparison.percent_change > 0 ? '+' : ''}${data.comparison.percent_change}%</strong>`;
+                }
+
+                if (data.weekly && data.weekly.length > 0) {
+                    const dates = data.weekly.map(d => d.date.slice(-5));
+                    const units = data.weekly.map(d => d.units);
+
+                    const ctx = document.getElementById('weeklyChart');
+                    if (weeklyChart) weeklyChart.destroy();
+                    weeklyChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: dates,
+                            datasets: [{
+                                label: 'Daily Units',
+                                data: units,
+                                borderColor: '#4f46e5',
+                                backgroundColor: 'rgba(79, 70, 229, 0.05)',
+                                borderWidth: 2,
+                                tension: 0.4,
+                                fill: true,
+                                pointBackgroundColor: '#4f46e5',
+                                pointBorderColor: '#fff',
+                                pointBorderWidth: 2
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: { legend: { display: true, labels: { usePointStyle: true } } },
+                            scales: { y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.05)' } } }
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading data:', error);
+            }
+        });
+
+        document.getElementById('smartDefaultsToggle')?.addEventListener('change', () => {
+            updateSmartDefaultState();
+        });
+
+        document.getElementById('fillDefaultsBtn')?.addEventListener('click', fillDefaultAppliances);
+        document.getElementById('addCustomApplianceBtn')?.addEventListener('click', addCustomApplianceRow);
+        document.getElementById('resetAppliancesBtn')?.addEventListener('click', resetAppliances);
+
+        // Profile and goal buttons
+        document.getElementById('updateProfileBtn')?.addEventListener('click', async () => {
+            await axios.post('/api/user-profile', {
+                family_size: document.getElementById('familySize').value,
+                property_type: document.getElementById('propertyType').value
+            });
+            alert('Profile saved successfully!');
+        });
+
+        document.getElementById('setGoalBtn')?.addEventListener('click', async () => {
+            const goal = document.getElementById('billGoal').value;
+            if (!goal) return alert('Enter a goal amount');
+            await axios.post('/api/set-goal', { goal_amount: goal });
+            document.getElementById('goalStatus').innerHTML = `<div style="background: #ecfdf5; color: #059669; padding: 12px; border-radius: 8px; font-weight: 600;">✓ Goal set: Reduce bill by ₹${goal}/month</div>`;
+        });
+    </script>
+</body>
+</html>

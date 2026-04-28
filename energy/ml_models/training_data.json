@@ -1,0 +1,1602 @@
+[
+  {
+    "text": "how do i lower my electricity bill now",
+    "intent": "saving_tips",
+    "response_key": "saving_tips_fridge"
+  },
+  {
+    "text": "how do i lower my electricity bill please",
+    "intent": "saving_tips",
+    "response_key": "saving_tips_ac"
+  },
+  {
+    "text": "bijli ka bill kam kaise kare now",
+    "intent": "saving_tips",
+    "response_key": "saving_tips_lights"
+  },
+  {
+    "text": "bijli ka bill kam kaise kare please",
+    "intent": "saving_tips",
+    "response_key": "saving_tips_general"
+  },
+  {
+    "text": "ways to cut power usage now",
+    "intent": "saving_tips",
+    "response_key": "saving_tips_lights"
+  },
+  {
+    "text": "ways to cut power usage",
+    "intent": "saving_tips",
+    "response_key": "saving_tips_standby"
+  },
+  {
+    "text": "saving tips now",
+    "intent": "saving_tips",
+    "response_key": "saving_tips_fridge"
+  },
+  {
+    "text": "saving tips fast",
+    "intent": "saving_tips",
+    "response_key": "saving_tips_general"
+  },
+  {
+    "text": "tips to save energy",
+    "intent": "saving_tips",
+    "response_key": "saving_tips_lights"
+  },
+  {
+    "text": "tips to save energy fast",
+    "intent": "saving_tips",
+    "response_key": "saving_tips_fridge"
+  },
+  {
+    "text": "reduce my bill now",
+    "intent": "saving_tips",
+    "response_key": "saving_tips_ac"
+  },
+  {
+    "text": "reduce my bill",
+    "intent": "saving_tips",
+    "response_key": "saving_tips_standby"
+  },
+  {
+    "text": "how can i save money on electricity now",
+    "intent": "saving_tips",
+    "response_key": "saving_tips_lights"
+  },
+  {
+    "text": "how can i save money on electricity fast",
+    "intent": "saving_tips",
+    "response_key": "saving_tips_fridge"
+  },
+  {
+    "text": "electricity saving ideas fast",
+    "intent": "saving_tips",
+    "response_key": "saving_tips_ac"
+  },
+  {
+    "text": "electricity saving ideas now",
+    "intent": "saving_tips",
+    "response_key": "saving_tips_standby"
+  },
+  {
+    "text": "reduce energy consumption now",
+    "intent": "saving_tips",
+    "response_key": "saving_tips_lights"
+  },
+  {
+    "text": "reduce energy consumption please",
+    "intent": "saving_tips",
+    "response_key": "saving_tips_lights"
+  },
+  {
+    "text": "how to minimize power usage now",
+    "intent": "saving_tips",
+    "response_key": "saving_tips_fridge"
+  },
+  {
+    "text": "how to minimize power usage please",
+    "intent": "saving_tips",
+    "response_key": "saving_tips_general"
+  },
+  {
+    "text": "energy efficiency advice fast",
+    "intent": "saving_tips",
+    "response_key": "saving_tips_general"
+  },
+  {
+    "text": "energy efficiency advice?",
+    "intent": "saving_tips",
+    "response_key": "saving_tips_general"
+  },
+  {
+    "text": "bill cut off now",
+    "intent": "saving_tips",
+    "response_key": "saving_tips_fridge"
+  },
+  {
+    "text": "bill cut off please",
+    "intent": "saving_tips",
+    "response_key": "saving_tips_general"
+  },
+  {
+    "text": "lower my bill please",
+    "intent": "saving_tips",
+    "response_key": "saving_tips_general"
+  },
+  {
+    "text": "lower my bill please fast",
+    "intent": "saving_tips",
+    "response_key": "saving_tips_fridge"
+  },
+  {
+    "text": "help me reduce bill please",
+    "intent": "saving_tips",
+    "response_key": "saving_tips_standby"
+  },
+  {
+    "text": "help me reduce bill?",
+    "intent": "saving_tips",
+    "response_key": "saving_tips_fridge"
+  },
+  {
+    "text": "how do i lower my electricity bill now",
+    "intent": "saving_tips",
+    "response_key": "saving_tips_lights"
+  },
+  {
+    "text": "how do i lower my electricity bill",
+    "intent": "saving_tips",
+    "response_key": "saving_tips_general"
+  },
+  {
+    "text": "bijli ka bill kam kaise kare now",
+    "intent": "saving_tips",
+    "response_key": "saving_tips_fridge"
+  },
+  {
+    "text": "bijli ka bill kam kaise kare",
+    "intent": "saving_tips",
+    "response_key": "saving_tips_fridge"
+  },
+  {
+    "text": "ways to cut power usage fast",
+    "intent": "saving_tips",
+    "response_key": "saving_tips_fridge"
+  },
+  {
+    "text": "ways to cut power usage now",
+    "intent": "saving_tips",
+    "response_key": "saving_tips_general"
+  },
+  {
+    "text": "saving tips",
+    "intent": "saving_tips",
+    "response_key": "saving_tips_ac"
+  },
+  {
+    "text": "saving tips fast",
+    "intent": "saving_tips",
+    "response_key": "saving_tips_standby"
+  },
+  {
+    "text": "tips to save energy?",
+    "intent": "saving_tips",
+    "response_key": "saving_tips_fridge"
+  },
+  {
+    "text": "tips to save energy please",
+    "intent": "saving_tips",
+    "response_key": "saving_tips_standby"
+  },
+  {
+    "text": "reduce my bill please",
+    "intent": "saving_tips",
+    "response_key": "saving_tips_fridge"
+  },
+  {
+    "text": "reduce my bill",
+    "intent": "saving_tips",
+    "response_key": "saving_tips_ac"
+  },
+  {
+    "text": "AC bahut zyada units le raha hai info",
+    "intent": "appliance_advice",
+    "response_key": "appliance_geyser"
+  },
+  {
+    "text": "AC bahut zyada units le raha hai",
+    "intent": "appliance_advice",
+    "response_key": "appliance_fridge"
+  },
+  {
+    "text": "how much power does ac use",
+    "intent": "appliance_advice",
+    "response_key": "appliance_general"
+  },
+  {
+    "text": "how much power does ac use tell me",
+    "intent": "appliance_advice",
+    "response_key": "appliance_geyser"
+  },
+  {
+    "text": "is fridge consuming too much?",
+    "intent": "appliance_advice",
+    "response_key": "appliance_geyser"
+  },
+  {
+    "text": "is fridge consuming too much tell me",
+    "intent": "appliance_advice",
+    "response_key": "appliance_washing_machine"
+  },
+  {
+    "text": "geyser running time?",
+    "intent": "appliance_advice",
+    "response_key": "appliance_tv"
+  },
+  {
+    "text": "geyser running time info",
+    "intent": "appliance_advice",
+    "response_key": "appliance_ac"
+  },
+  {
+    "text": "appliance power consumption info",
+    "intent": "appliance_advice",
+    "response_key": "appliance_fridge"
+  },
+  {
+    "text": "appliance power consumption tell me",
+    "intent": "appliance_advice",
+    "response_key": "appliance_geyser"
+  },
+  {
+    "text": "which appliance is the most expensive tell me",
+    "intent": "appliance_advice",
+    "response_key": "appliance_fridge"
+  },
+  {
+    "text": "which appliance is the most expensive?",
+    "intent": "appliance_advice",
+    "response_key": "appliance_geyser"
+  },
+  {
+    "text": "does the tv take a lot of power?",
+    "intent": "appliance_advice",
+    "response_key": "appliance_general"
+  },
+  {
+    "text": "does the tv take a lot of power",
+    "intent": "appliance_advice",
+    "response_key": "appliance_geyser"
+  },
+  {
+    "text": "washing machine energy usage tell me",
+    "intent": "appliance_advice",
+    "response_key": "appliance_fridge"
+  },
+  {
+    "text": "washing machine energy usage info",
+    "intent": "appliance_advice",
+    "response_key": "appliance_geyser"
+  },
+  {
+    "text": "ac power details tell me",
+    "intent": "appliance_advice",
+    "response_key": "appliance_washing_machine"
+  },
+  {
+    "text": "ac power details",
+    "intent": "appliance_advice",
+    "response_key": "appliance_geyser"
+  },
+  {
+    "text": "fridge power tips?",
+    "intent": "appliance_advice",
+    "response_key": "appliance_washing_machine"
+  },
+  {
+    "text": "fridge power tips",
+    "intent": "appliance_advice",
+    "response_key": "appliance_fridge"
+  },
+  {
+    "text": "how to optimise ac tell me",
+    "intent": "appliance_advice",
+    "response_key": "appliance_ac"
+  },
+  {
+    "text": "how to optimise ac?",
+    "intent": "appliance_advice",
+    "response_key": "appliance_geyser"
+  },
+  {
+    "text": "what temp for ac info",
+    "intent": "appliance_advice",
+    "response_key": "appliance_fridge"
+  },
+  {
+    "text": "what temp for ac",
+    "intent": "appliance_advice",
+    "response_key": "appliance_geyser"
+  },
+  {
+    "text": "appliance electricity cost tell me",
+    "intent": "appliance_advice",
+    "response_key": "appliance_ac"
+  },
+  {
+    "text": "appliance electricity cost",
+    "intent": "appliance_advice",
+    "response_key": "appliance_washing_machine"
+  },
+  {
+    "text": "how to run geyser efficiently",
+    "intent": "appliance_advice",
+    "response_key": "appliance_ac"
+  },
+  {
+    "text": "how to run geyser efficiently info",
+    "intent": "appliance_advice",
+    "response_key": "appliance_ac"
+  },
+  {
+    "text": "AC bahut zyada units le raha hai",
+    "intent": "appliance_advice",
+    "response_key": "appliance_ac"
+  },
+  {
+    "text": "AC bahut zyada units le raha hai?",
+    "intent": "appliance_advice",
+    "response_key": "appliance_fridge"
+  },
+  {
+    "text": "how much power does ac use tell me",
+    "intent": "appliance_advice",
+    "response_key": "appliance_geyser"
+  },
+  {
+    "text": "how much power does ac use?",
+    "intent": "appliance_advice",
+    "response_key": "appliance_fridge"
+  },
+  {
+    "text": "is fridge consuming too much",
+    "intent": "appliance_advice",
+    "response_key": "appliance_general"
+  },
+  {
+    "text": "is fridge consuming too much tell me",
+    "intent": "appliance_advice",
+    "response_key": "appliance_washing_machine"
+  },
+  {
+    "text": "geyser running time?",
+    "intent": "appliance_advice",
+    "response_key": "appliance_fridge"
+  },
+  {
+    "text": "geyser running time tell me",
+    "intent": "appliance_advice",
+    "response_key": "appliance_fridge"
+  },
+  {
+    "text": "appliance power consumption",
+    "intent": "appliance_advice",
+    "response_key": "appliance_tv"
+  },
+  {
+    "text": "appliance power consumption info",
+    "intent": "appliance_advice",
+    "response_key": "appliance_washing_machine"
+  },
+  {
+    "text": "which appliance is the most expensive info",
+    "intent": "appliance_advice",
+    "response_key": "appliance_fridge"
+  },
+  {
+    "text": "which appliance is the most expensive?",
+    "intent": "appliance_advice",
+    "response_key": "appliance_geyser"
+  },
+  {
+    "text": "my bill?",
+    "intent": "personal_stats",
+    "response_key": "personal_stats"
+  },
+  {
+    "text": "my bill? right now",
+    "intent": "personal_stats",
+    "response_key": "personal_stats"
+  },
+  {
+    "text": "show my usage right now",
+    "intent": "personal_stats",
+    "response_key": "personal_stats"
+  },
+  {
+    "text": "show my usage",
+    "intent": "personal_stats",
+    "response_key": "personal_stats"
+  },
+  {
+    "text": "what is my bill this month right now",
+    "intent": "personal_stats",
+    "response_key": "personal_stats"
+  },
+  {
+    "text": "what is my bill this month",
+    "intent": "personal_stats",
+    "response_key": "personal_stats"
+  },
+  {
+    "text": "my electricity stats?",
+    "intent": "personal_stats",
+    "response_key": "personal_stats"
+  },
+  {
+    "text": "my electricity stats please",
+    "intent": "personal_stats",
+    "response_key": "personal_stats"
+  },
+  {
+    "text": "mera bill kitna hai",
+    "intent": "personal_stats",
+    "response_key": "personal_stats"
+  },
+  {
+    "text": "mera bill kitna hai?",
+    "intent": "personal_stats",
+    "response_key": "personal_stats"
+  },
+  {
+    "text": "how much did i consume?",
+    "intent": "personal_stats",
+    "response_key": "personal_stats"
+  },
+  {
+    "text": "how much did i consume right now",
+    "intent": "personal_stats",
+    "response_key": "personal_stats"
+  },
+  {
+    "text": "tell me my bill",
+    "intent": "personal_stats",
+    "response_key": "personal_stats"
+  },
+  {
+    "text": "tell me my bill right now",
+    "intent": "personal_stats",
+    "response_key": "personal_stats"
+  },
+  {
+    "text": "current month bill",
+    "intent": "personal_stats",
+    "response_key": "personal_stats"
+  },
+  {
+    "text": "current month bill please",
+    "intent": "personal_stats",
+    "response_key": "personal_stats"
+  },
+  {
+    "text": "my energy dashboard right now",
+    "intent": "personal_stats",
+    "response_key": "personal_stats"
+  },
+  {
+    "text": "my energy dashboard?",
+    "intent": "personal_stats",
+    "response_key": "personal_stats"
+  },
+  {
+    "text": "how many units did i use right now",
+    "intent": "personal_stats",
+    "response_key": "personal_stats"
+  },
+  {
+    "text": "how many units did i use please",
+    "intent": "personal_stats",
+    "response_key": "personal_stats"
+  },
+  {
+    "text": "personal usage data?",
+    "intent": "personal_stats",
+    "response_key": "personal_stats"
+  },
+  {
+    "text": "personal usage data right now",
+    "intent": "personal_stats",
+    "response_key": "personal_stats"
+  },
+  {
+    "text": "what's my score",
+    "intent": "personal_stats",
+    "response_key": "personal_stats"
+  },
+  {
+    "text": "what's my score?",
+    "intent": "personal_stats",
+    "response_key": "personal_stats"
+  },
+  {
+    "text": "my efficiency score",
+    "intent": "personal_stats",
+    "response_key": "personal_stats"
+  },
+  {
+    "text": "my efficiency score right now",
+    "intent": "personal_stats",
+    "response_key": "personal_stats"
+  },
+  {
+    "text": "check my bill right now",
+    "intent": "personal_stats",
+    "response_key": "personal_stats"
+  },
+  {
+    "text": "check my bill please",
+    "intent": "personal_stats",
+    "response_key": "personal_stats"
+  },
+  {
+    "text": "my bill?",
+    "intent": "personal_stats",
+    "response_key": "personal_stats"
+  },
+  {
+    "text": "my bill? please",
+    "intent": "personal_stats",
+    "response_key": "personal_stats"
+  },
+  {
+    "text": "show my usage right now",
+    "intent": "personal_stats",
+    "response_key": "personal_stats"
+  },
+  {
+    "text": "show my usage",
+    "intent": "personal_stats",
+    "response_key": "personal_stats"
+  },
+  {
+    "text": "what is my bill this month?",
+    "intent": "personal_stats",
+    "response_key": "personal_stats"
+  },
+  {
+    "text": "what is my bill this month",
+    "intent": "personal_stats",
+    "response_key": "personal_stats"
+  },
+  {
+    "text": "my electricity stats right now",
+    "intent": "personal_stats",
+    "response_key": "personal_stats"
+  },
+  {
+    "text": "my electricity stats",
+    "intent": "personal_stats",
+    "response_key": "personal_stats"
+  },
+  {
+    "text": "mera bill kitna hai please",
+    "intent": "personal_stats",
+    "response_key": "personal_stats"
+  },
+  {
+    "text": "mera bill kitna hai right now",
+    "intent": "personal_stats",
+    "response_key": "personal_stats"
+  },
+  {
+    "text": "how much did i consume right now",
+    "intent": "personal_stats",
+    "response_key": "personal_stats"
+  },
+  {
+    "text": "how much did i consume?",
+    "intent": "personal_stats",
+    "response_key": "personal_stats"
+  },
+  {
+    "text": "what are the tariff slabs info",
+    "intent": "billing_info",
+    "response_key": "billing_fixed_charge"
+  },
+  {
+    "text": "what are the tariff slabs",
+    "intent": "billing_info",
+    "response_key": "billing_general"
+  },
+  {
+    "text": "how is the bill calculated?",
+    "intent": "billing_info",
+    "response_key": "billing_general"
+  },
+  {
+    "text": "how is the bill calculated info",
+    "intent": "billing_info",
+    "response_key": "billing_calculation"
+  },
+  {
+    "text": "meter reading info info",
+    "intent": "billing_info",
+    "response_key": "billing_fixed_charge"
+  },
+  {
+    "text": "meter reading info please",
+    "intent": "billing_info",
+    "response_key": "billing_calculation"
+  },
+  {
+    "text": "electricity rates please",
+    "intent": "billing_info",
+    "response_key": "billing_slab"
+  },
+  {
+    "text": "electricity rates",
+    "intent": "billing_info",
+    "response_key": "billing_calculation"
+  },
+  {
+    "text": "how much per unit please",
+    "intent": "billing_info",
+    "response_key": "billing_calculation"
+  },
+  {
+    "text": "how much per unit?",
+    "intent": "billing_info",
+    "response_key": "billing_general"
+  },
+  {
+    "text": "cost of one unit please",
+    "intent": "billing_info",
+    "response_key": "billing_slab"
+  },
+  {
+    "text": "cost of one unit info",
+    "intent": "billing_info",
+    "response_key": "billing_slab"
+  },
+  {
+    "text": "slab details please",
+    "intent": "billing_info",
+    "response_key": "billing_calculation"
+  },
+  {
+    "text": "slab details?",
+    "intent": "billing_info",
+    "response_key": "billing_slab"
+  },
+  {
+    "text": "bill calculation rules info",
+    "intent": "billing_info",
+    "response_key": "billing_fixed_charge"
+  },
+  {
+    "text": "bill calculation rules?",
+    "intent": "billing_info",
+    "response_key": "billing_general"
+  },
+  {
+    "text": "fixed charges explained?",
+    "intent": "billing_info",
+    "response_key": "billing_calculation"
+  },
+  {
+    "text": "fixed charges explained info",
+    "intent": "billing_info",
+    "response_key": "billing_fixed_charge"
+  },
+  {
+    "text": "what is a tariff",
+    "intent": "billing_info",
+    "response_key": "billing_calculation"
+  },
+  {
+    "text": "what is a tariff?",
+    "intent": "billing_info",
+    "response_key": "billing_calculation"
+  },
+  {
+    "text": "per kwh price please",
+    "intent": "billing_info",
+    "response_key": "billing_general"
+  },
+  {
+    "text": "per kwh price?",
+    "intent": "billing_info",
+    "response_key": "billing_general"
+  },
+  {
+    "text": "unit price info",
+    "intent": "billing_info",
+    "response_key": "billing_slab"
+  },
+  {
+    "text": "unit price please",
+    "intent": "billing_info",
+    "response_key": "billing_slab"
+  },
+  {
+    "text": "rate per unit info",
+    "intent": "billing_info",
+    "response_key": "billing_calculation"
+  },
+  {
+    "text": "rate per unit?",
+    "intent": "billing_info",
+    "response_key": "billing_calculation"
+  },
+  {
+    "text": "explain the bill please",
+    "intent": "billing_info",
+    "response_key": "billing_fixed_charge"
+  },
+  {
+    "text": "explain the bill?",
+    "intent": "billing_info",
+    "response_key": "billing_calculation"
+  },
+  {
+    "text": "what are the tariff slabs?",
+    "intent": "billing_info",
+    "response_key": "billing_slab"
+  },
+  {
+    "text": "what are the tariff slabs please",
+    "intent": "billing_info",
+    "response_key": "billing_calculation"
+  },
+  {
+    "text": "how is the bill calculated info",
+    "intent": "billing_info",
+    "response_key": "billing_slab"
+  },
+  {
+    "text": "how is the bill calculated",
+    "intent": "billing_info",
+    "response_key": "billing_fixed_charge"
+  },
+  {
+    "text": "meter reading info info",
+    "intent": "billing_info",
+    "response_key": "billing_calculation"
+  },
+  {
+    "text": "meter reading info?",
+    "intent": "billing_info",
+    "response_key": "billing_calculation"
+  },
+  {
+    "text": "electricity rates",
+    "intent": "billing_info",
+    "response_key": "billing_fixed_charge"
+  },
+  {
+    "text": "electricity rates info",
+    "intent": "billing_info",
+    "response_key": "billing_general"
+  },
+  {
+    "text": "how much per unit?",
+    "intent": "billing_info",
+    "response_key": "billing_fixed_charge"
+  },
+  {
+    "text": "how much per unit",
+    "intent": "billing_info",
+    "response_key": "billing_calculation"
+  },
+  {
+    "text": "cost of one unit info",
+    "intent": "billing_info",
+    "response_key": "billing_fixed_charge"
+  },
+  {
+    "text": "cost of one unit please",
+    "intent": "billing_info",
+    "response_key": "billing_calculation"
+  },
+  {
+    "text": "how does india compare stats",
+    "intent": "iea_benchmark",
+    "response_key": "iea_benchmark_info"
+  },
+  {
+    "text": "how does india compare please",
+    "intent": "iea_benchmark",
+    "response_key": "iea_benchmark_info"
+  },
+  {
+    "text": "national averages stats",
+    "intent": "iea_benchmark",
+    "response_key": "iea_benchmark_info"
+  },
+  {
+    "text": "national averages",
+    "intent": "iea_benchmark",
+    "response_key": "iea_benchmark_info"
+  },
+  {
+    "text": "iea statistics",
+    "intent": "iea_benchmark",
+    "response_key": "iea_benchmark_info"
+  },
+  {
+    "text": "iea statistics stats",
+    "intent": "iea_benchmark",
+    "response_key": "iea_benchmark_info"
+  },
+  {
+    "text": "what is the average household usage?",
+    "intent": "iea_benchmark",
+    "response_key": "iea_benchmark_info"
+  },
+  {
+    "text": "what is the average household usage please",
+    "intent": "iea_benchmark",
+    "response_key": "iea_benchmark_info"
+  },
+  {
+    "text": "compare to average",
+    "intent": "iea_benchmark",
+    "response_key": "iea_benchmark_info"
+  },
+  {
+    "text": "compare to average please",
+    "intent": "iea_benchmark",
+    "response_key": "iea_benchmark_info"
+  },
+  {
+    "text": "iea benchmark please",
+    "intent": "iea_benchmark",
+    "response_key": "iea_benchmark_info"
+  },
+  {
+    "text": "iea benchmark",
+    "intent": "iea_benchmark",
+    "response_key": "iea_benchmark_info"
+  },
+  {
+    "text": "how am i compared to national average stats",
+    "intent": "iea_benchmark",
+    "response_key": "iea_benchmark_info"
+  },
+  {
+    "text": "how am i compared to national average?",
+    "intent": "iea_benchmark",
+    "response_key": "iea_benchmark_info"
+  },
+  {
+    "text": "indian average electricity consumption",
+    "intent": "iea_benchmark",
+    "response_key": "iea_benchmark_info"
+  },
+  {
+    "text": "indian average electricity consumption?",
+    "intent": "iea_benchmark",
+    "response_key": "iea_benchmark_info"
+  },
+  {
+    "text": "global average vs me?",
+    "intent": "iea_benchmark",
+    "response_key": "iea_benchmark_info"
+  },
+  {
+    "text": "global average vs me stats",
+    "intent": "iea_benchmark",
+    "response_key": "iea_benchmark_info"
+  },
+  {
+    "text": "iea data?",
+    "intent": "iea_benchmark",
+    "response_key": "iea_benchmark_info"
+  },
+  {
+    "text": "iea data",
+    "intent": "iea_benchmark",
+    "response_key": "iea_benchmark_info"
+  },
+  {
+    "text": "what does iea say please",
+    "intent": "iea_benchmark",
+    "response_key": "iea_benchmark_info"
+  },
+  {
+    "text": "what does iea say",
+    "intent": "iea_benchmark",
+    "response_key": "iea_benchmark_info"
+  },
+  {
+    "text": "average kwh in india",
+    "intent": "iea_benchmark",
+    "response_key": "iea_benchmark_info"
+  },
+  {
+    "text": "average kwh in india?",
+    "intent": "iea_benchmark",
+    "response_key": "iea_benchmark_info"
+  },
+  {
+    "text": "how does india compare?",
+    "intent": "iea_benchmark",
+    "response_key": "iea_benchmark_info"
+  },
+  {
+    "text": "how does india compare",
+    "intent": "iea_benchmark",
+    "response_key": "iea_benchmark_info"
+  },
+  {
+    "text": "national averages",
+    "intent": "iea_benchmark",
+    "response_key": "iea_benchmark_info"
+  },
+  {
+    "text": "national averages please",
+    "intent": "iea_benchmark",
+    "response_key": "iea_benchmark_info"
+  },
+  {
+    "text": "iea statistics please",
+    "intent": "iea_benchmark",
+    "response_key": "iea_benchmark_info"
+  },
+  {
+    "text": "iea statistics stats",
+    "intent": "iea_benchmark",
+    "response_key": "iea_benchmark_info"
+  },
+  {
+    "text": "what is the average household usage?",
+    "intent": "iea_benchmark",
+    "response_key": "iea_benchmark_info"
+  },
+  {
+    "text": "what is the average household usage please",
+    "intent": "iea_benchmark",
+    "response_key": "iea_benchmark_info"
+  },
+  {
+    "text": "compare to average stats",
+    "intent": "iea_benchmark",
+    "response_key": "iea_benchmark_info"
+  },
+  {
+    "text": "compare to average?",
+    "intent": "iea_benchmark",
+    "response_key": "iea_benchmark_info"
+  },
+  {
+    "text": "iea benchmark stats",
+    "intent": "iea_benchmark",
+    "response_key": "iea_benchmark_info"
+  },
+  {
+    "text": "iea benchmark",
+    "intent": "iea_benchmark",
+    "response_key": "iea_benchmark_info"
+  },
+  {
+    "text": "how am i compared to national average",
+    "intent": "iea_benchmark",
+    "response_key": "iea_benchmark_info"
+  },
+  {
+    "text": "how am i compared to national average please",
+    "intent": "iea_benchmark",
+    "response_key": "iea_benchmark_info"
+  },
+  {
+    "text": "indian average electricity consumption stats",
+    "intent": "iea_benchmark",
+    "response_key": "iea_benchmark_info"
+  },
+  {
+    "text": "indian average electricity consumption please",
+    "intent": "iea_benchmark",
+    "response_key": "iea_benchmark_info"
+  },
+  {
+    "text": "solar panels info",
+    "intent": "renewables",
+    "response_key": "renewables_solar"
+  },
+  {
+    "text": "solar panels",
+    "intent": "renewables",
+    "response_key": "renewables_net_metering"
+  },
+  {
+    "text": "can i install solar info",
+    "intent": "renewables",
+    "response_key": "renewables_net_metering"
+  },
+  {
+    "text": "can i install solar",
+    "intent": "renewables",
+    "response_key": "renewables_net_metering"
+  },
+  {
+    "text": "net metering explained",
+    "intent": "renewables",
+    "response_key": "renewables_solar"
+  },
+  {
+    "text": "net metering explained?",
+    "intent": "renewables",
+    "response_key": "renewables_net_metering"
+  },
+  {
+    "text": "green energy",
+    "intent": "renewables",
+    "response_key": "renewables_solar"
+  },
+  {
+    "text": "green energy cost",
+    "intent": "renewables",
+    "response_key": "renewables_net_metering"
+  },
+  {
+    "text": "solar power tips cost",
+    "intent": "renewables",
+    "response_key": "renewables_solar"
+  },
+  {
+    "text": "solar power tips?",
+    "intent": "renewables",
+    "response_key": "renewables_net_metering"
+  },
+  {
+    "text": "how does solar work",
+    "intent": "renewables",
+    "response_key": "renewables_net_metering"
+  },
+  {
+    "text": "how does solar work cost",
+    "intent": "renewables",
+    "response_key": "renewables_solar"
+  },
+  {
+    "text": "renewable energy options",
+    "intent": "renewables",
+    "response_key": "renewables_solar"
+  },
+  {
+    "text": "renewable energy options?",
+    "intent": "renewables",
+    "response_key": "renewables_solar"
+  },
+  {
+    "text": "solar installation?",
+    "intent": "renewables",
+    "response_key": "renewables_solar"
+  },
+  {
+    "text": "solar installation cost",
+    "intent": "renewables",
+    "response_key": "renewables_net_metering"
+  },
+  {
+    "text": "benefits of solar info",
+    "intent": "renewables",
+    "response_key": "renewables_solar"
+  },
+  {
+    "text": "benefits of solar cost",
+    "intent": "renewables",
+    "response_key": "renewables_solar"
+  },
+  {
+    "text": "is solar worth it?",
+    "intent": "renewables",
+    "response_key": "renewables_net_metering"
+  },
+  {
+    "text": "is solar worth it",
+    "intent": "renewables",
+    "response_key": "renewables_solar"
+  },
+  {
+    "text": "subsidy for solar info",
+    "intent": "renewables",
+    "response_key": "renewables_solar"
+  },
+  {
+    "text": "subsidy for solar?",
+    "intent": "renewables",
+    "response_key": "renewables_solar"
+  },
+  {
+    "text": "green electricity cost",
+    "intent": "renewables",
+    "response_key": "renewables_solar"
+  },
+  {
+    "text": "green electricity",
+    "intent": "renewables",
+    "response_key": "renewables_net_metering"
+  },
+  {
+    "text": "solar panels info",
+    "intent": "renewables",
+    "response_key": "renewables_solar"
+  },
+  {
+    "text": "solar panels",
+    "intent": "renewables",
+    "response_key": "renewables_net_metering"
+  },
+  {
+    "text": "can i install solar cost",
+    "intent": "renewables",
+    "response_key": "renewables_net_metering"
+  },
+  {
+    "text": "can i install solar",
+    "intent": "renewables",
+    "response_key": "renewables_solar"
+  },
+  {
+    "text": "net metering explained",
+    "intent": "renewables",
+    "response_key": "renewables_solar"
+  },
+  {
+    "text": "net metering explained cost",
+    "intent": "renewables",
+    "response_key": "renewables_solar"
+  },
+  {
+    "text": "green energy",
+    "intent": "renewables",
+    "response_key": "renewables_solar"
+  },
+  {
+    "text": "green energy?",
+    "intent": "renewables",
+    "response_key": "renewables_net_metering"
+  },
+  {
+    "text": "solar power tips cost",
+    "intent": "renewables",
+    "response_key": "renewables_net_metering"
+  },
+  {
+    "text": "solar power tips info",
+    "intent": "renewables",
+    "response_key": "renewables_solar"
+  },
+  {
+    "text": "how does solar work?",
+    "intent": "renewables",
+    "response_key": "renewables_solar"
+  },
+  {
+    "text": "how does solar work",
+    "intent": "renewables",
+    "response_key": "renewables_solar"
+  },
+  {
+    "text": "renewable energy options cost",
+    "intent": "renewables",
+    "response_key": "renewables_net_metering"
+  },
+  {
+    "text": "renewable energy options info",
+    "intent": "renewables",
+    "response_key": "renewables_net_metering"
+  },
+  {
+    "text": "solar installation cost",
+    "intent": "renewables",
+    "response_key": "renewables_net_metering"
+  },
+  {
+    "text": "solar installation",
+    "intent": "renewables",
+    "response_key": "renewables_solar"
+  },
+  {
+    "text": "forecast my bill for me",
+    "intent": "prediction_query",
+    "response_key": "prediction_general"
+  },
+  {
+    "text": "forecast my bill please",
+    "intent": "prediction_query",
+    "response_key": "prediction_general"
+  },
+  {
+    "text": "predict future usage",
+    "intent": "prediction_query",
+    "response_key": "prediction_general"
+  },
+  {
+    "text": "predict future usage for me",
+    "intent": "prediction_query",
+    "response_key": "prediction_general"
+  },
+  {
+    "text": "what will my bill be next month",
+    "intent": "prediction_query",
+    "response_key": "prediction_general"
+  },
+  {
+    "text": "what will my bill be next month?",
+    "intent": "prediction_query",
+    "response_key": "prediction_general"
+  },
+  {
+    "text": "future forecast please",
+    "intent": "prediction_query",
+    "response_key": "prediction_general"
+  },
+  {
+    "text": "future forecast for me",
+    "intent": "prediction_query",
+    "response_key": "prediction_general"
+  },
+  {
+    "text": "prediction of electricity",
+    "intent": "prediction_query",
+    "response_key": "prediction_general"
+  },
+  {
+    "text": "prediction of electricity for me",
+    "intent": "prediction_query",
+    "response_key": "prediction_general"
+  },
+  {
+    "text": "estimate my bill",
+    "intent": "prediction_query",
+    "response_key": "prediction_general"
+  },
+  {
+    "text": "estimate my bill?",
+    "intent": "prediction_query",
+    "response_key": "prediction_general"
+  },
+  {
+    "text": "bill projection please",
+    "intent": "prediction_query",
+    "response_key": "prediction_general"
+  },
+  {
+    "text": "bill projection for me",
+    "intent": "prediction_query",
+    "response_key": "prediction_general"
+  },
+  {
+    "text": "how much to expect next month",
+    "intent": "prediction_query",
+    "response_key": "prediction_general"
+  },
+  {
+    "text": "how much to expect next month for me",
+    "intent": "prediction_query",
+    "response_key": "prediction_general"
+  },
+  {
+    "text": "forecast usage?",
+    "intent": "prediction_query",
+    "response_key": "prediction_general"
+  },
+  {
+    "text": "forecast usage for me",
+    "intent": "prediction_query",
+    "response_key": "prediction_general"
+  },
+  {
+    "text": "predict my consumption",
+    "intent": "prediction_query",
+    "response_key": "prediction_general"
+  },
+  {
+    "text": "predict my consumption?",
+    "intent": "prediction_query",
+    "response_key": "prediction_general"
+  },
+  {
+    "text": "next month bill estimate for me",
+    "intent": "prediction_query",
+    "response_key": "prediction_general"
+  },
+  {
+    "text": "next month bill estimate please",
+    "intent": "prediction_query",
+    "response_key": "prediction_general"
+  },
+  {
+    "text": "forecast my bill for me",
+    "intent": "prediction_query",
+    "response_key": "prediction_general"
+  },
+  {
+    "text": "forecast my bill",
+    "intent": "prediction_query",
+    "response_key": "prediction_general"
+  },
+  {
+    "text": "predict future usage for me",
+    "intent": "prediction_query",
+    "response_key": "prediction_general"
+  },
+  {
+    "text": "predict future usage please",
+    "intent": "prediction_query",
+    "response_key": "prediction_general"
+  },
+  {
+    "text": "what will my bill be next month for me",
+    "intent": "prediction_query",
+    "response_key": "prediction_general"
+  },
+  {
+    "text": "what will my bill be next month",
+    "intent": "prediction_query",
+    "response_key": "prediction_general"
+  },
+  {
+    "text": "future forecast for me",
+    "intent": "prediction_query",
+    "response_key": "prediction_general"
+  },
+  {
+    "text": "future forecast?",
+    "intent": "prediction_query",
+    "response_key": "prediction_general"
+  },
+  {
+    "text": "prediction of electricity please",
+    "intent": "prediction_query",
+    "response_key": "prediction_general"
+  },
+  {
+    "text": "prediction of electricity for me",
+    "intent": "prediction_query",
+    "response_key": "prediction_general"
+  },
+  {
+    "text": "estimate my bill please",
+    "intent": "prediction_query",
+    "response_key": "prediction_general"
+  },
+  {
+    "text": "estimate my bill",
+    "intent": "prediction_query",
+    "response_key": "prediction_general"
+  },
+  {
+    "text": "bill projection?",
+    "intent": "prediction_query",
+    "response_key": "prediction_general"
+  },
+  {
+    "text": "bill projection please",
+    "intent": "prediction_query",
+    "response_key": "prediction_general"
+  },
+  {
+    "text": "how much to expect next month please",
+    "intent": "prediction_query",
+    "response_key": "prediction_general"
+  },
+  {
+    "text": "how much to expect next month",
+    "intent": "prediction_query",
+    "response_key": "prediction_general"
+  },
+  {
+    "text": "forecast usage",
+    "intent": "prediction_query",
+    "response_key": "prediction_general"
+  },
+  {
+    "text": "forecast usage please",
+    "intent": "prediction_query",
+    "response_key": "prediction_general"
+  },
+  {
+    "text": "hello!",
+    "intent": "smalltalk",
+    "response_key": "smalltalk_greeting"
+  },
+  {
+    "text": "hello.",
+    "intent": "smalltalk",
+    "response_key": "smalltalk_help"
+  },
+  {
+    "text": "hi there!",
+    "intent": "smalltalk",
+    "response_key": "smalltalk_greeting"
+  },
+  {
+    "text": "hi there.",
+    "intent": "smalltalk",
+    "response_key": "smalltalk_greeting"
+  },
+  {
+    "text": "hey.",
+    "intent": "smalltalk",
+    "response_key": "smalltalk_greeting"
+  },
+  {
+    "text": "hey",
+    "intent": "smalltalk",
+    "response_key": "smalltalk_thanks"
+  },
+  {
+    "text": "good morning",
+    "intent": "smalltalk",
+    "response_key": "smalltalk_thanks"
+  },
+  {
+    "text": "good morning!",
+    "intent": "smalltalk",
+    "response_key": "smalltalk_help"
+  },
+  {
+    "text": "thanks!",
+    "intent": "smalltalk",
+    "response_key": "smalltalk_help"
+  },
+  {
+    "text": "thanks.",
+    "intent": "smalltalk",
+    "response_key": "smalltalk_greeting"
+  },
+  {
+    "text": "thank you",
+    "intent": "smalltalk",
+    "response_key": "smalltalk_thanks"
+  },
+  {
+    "text": "thank you.",
+    "intent": "smalltalk",
+    "response_key": "smalltalk_greeting"
+  },
+  {
+    "text": "what can you do",
+    "intent": "smalltalk",
+    "response_key": "smalltalk_thanks"
+  },
+  {
+    "text": "what can you do!",
+    "intent": "smalltalk",
+    "response_key": "smalltalk_help"
+  },
+  {
+    "text": "help me!",
+    "intent": "smalltalk",
+    "response_key": "smalltalk_greeting"
+  },
+  {
+    "text": "help me",
+    "intent": "smalltalk",
+    "response_key": "smalltalk_thanks"
+  },
+  {
+    "text": "who are you!",
+    "intent": "smalltalk",
+    "response_key": "smalltalk_thanks"
+  },
+  {
+    "text": "who are you",
+    "intent": "smalltalk",
+    "response_key": "smalltalk_thanks"
+  },
+  {
+    "text": "what are your features!",
+    "intent": "smalltalk",
+    "response_key": "smalltalk_help"
+  },
+  {
+    "text": "what are your features.",
+    "intent": "smalltalk",
+    "response_key": "smalltalk_greeting"
+  },
+  {
+    "text": "namaste",
+    "intent": "smalltalk",
+    "response_key": "smalltalk_help"
+  },
+  {
+    "text": "namaste.",
+    "intent": "smalltalk",
+    "response_key": "smalltalk_greeting"
+  },
+  {
+    "text": "hi.",
+    "intent": "smalltalk",
+    "response_key": "smalltalk_help"
+  },
+  {
+    "text": "hi",
+    "intent": "smalltalk",
+    "response_key": "smalltalk_help"
+  },
+  {
+    "text": "how are you!",
+    "intent": "smalltalk",
+    "response_key": "smalltalk_thanks"
+  },
+  {
+    "text": "how are you",
+    "intent": "smalltalk",
+    "response_key": "smalltalk_help"
+  },
+  {
+    "text": "what do you do!",
+    "intent": "smalltalk",
+    "response_key": "smalltalk_greeting"
+  },
+  {
+    "text": "what do you do.",
+    "intent": "smalltalk",
+    "response_key": "smalltalk_help"
+  },
+  {
+    "text": "are you an ai",
+    "intent": "smalltalk",
+    "response_key": "smalltalk_greeting"
+  },
+  {
+    "text": "are you an ai!",
+    "intent": "smalltalk",
+    "response_key": "smalltalk_help"
+  },
+  {
+    "text": "hello",
+    "intent": "smalltalk",
+    "response_key": "smalltalk_thanks"
+  },
+  {
+    "text": "hello.",
+    "intent": "smalltalk",
+    "response_key": "smalltalk_help"
+  },
+  {
+    "text": "hi there!",
+    "intent": "smalltalk",
+    "response_key": "smalltalk_greeting"
+  },
+  {
+    "text": "hi there",
+    "intent": "smalltalk",
+    "response_key": "smalltalk_thanks"
+  },
+  {
+    "text": "hey!",
+    "intent": "smalltalk",
+    "response_key": "smalltalk_thanks"
+  },
+  {
+    "text": "hey.",
+    "intent": "smalltalk",
+    "response_key": "smalltalk_help"
+  },
+  {
+    "text": "good morning.",
+    "intent": "smalltalk",
+    "response_key": "smalltalk_thanks"
+  },
+  {
+    "text": "good morning!",
+    "intent": "smalltalk",
+    "response_key": "smalltalk_thanks"
+  },
+  {
+    "text": "thanks",
+    "intent": "smalltalk",
+    "response_key": "smalltalk_thanks"
+  },
+  {
+    "text": "thanks!",
+    "intent": "smalltalk",
+    "response_key": "smalltalk_help"
+  }
+]

@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ EcoSmart - Energy Management Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+    <style>
+        * {
+            scroll-behavior: smooth;
+        }
+        
+        :root {
+            --primary: #4f46e5;
+            --primary-light: #6366f1;
+            --success: #059669;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --light-bg: #f9fafb;
+            --card-bg: #ffffff;
+            --border: #e5e7eb;
+            --text-dark: #111827;
+            --text-light: #6b7280;
+        }
+        
+        body {
+            background: var(--light-bg);
+            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            color: var(--text-dark);
+            margin: 0;
+            padding: 0;
+        }
+        
+        .navbar {
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--primary) !important;
+            letter-spacing: -0.5px;
+        }
+        
+        .navbar-brand i {
+            margin-right: 8px;
+        }
+        
+        .nav-link {
+            color: var(--text-light) !important;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.5rem 1rem !important;
+            transition: color 0.2s;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary) !important;
+        }
+        
+        .nav-link.active {
+            color: var(--primary) !important;
+            border-bottom: 2px solid var(--primary);
+        }
+        
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            transition: all 0.3s ease;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            margin-bottom: 20px;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            border-radius: 15px 15px 0 0 !important;
+            padding: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .stat-box {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 12px;
+            padding: 20px;
+            color: white;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-box:hover {
+            transform: scale(1.05);
+        }
+        
+        .stat-box.warning {
+            background: linear-gradient(135deg, var(--warning) 0%, #d97706 100%);
+        }
+        
+        .stat-box.success {
+            background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+        }
+        
+        .stat-box.danger {
+            background: linear-gradient(135deg, var(--danger) 0%, #dc2626 100%);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .input-group-text {
+            background: white;
+            border: 2px solid var(--light);
+        }
+        
+        .form-control, .form-select {
+            border: 2px solid var(--light);
+            border-radius: 10px;
+            padding: 10px 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25);
+        }
+        
+        .btn {
+            border-radius: 10px;
+            padding: 10px 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border: none;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+        }
+        
+        .btn-outline-light:hover {
+            background: white;
+            color: var(--primary);
+        }
+        
+        .badge {
+            padding: 8px 15px;
+            font-size: 0.85rem;
+            border-radius: 20px;
+        }
+        
+        .eco-score {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: conic-gradient(var(--success) 0%, var(--success) 75%, var(--light) 75%);
+            position: relative;
+            margin: 20px auto;
+        }
+        
+        .eco-score::before {
+            content: attr(data-score);
+            position: absolute;
+            width: 110px;
+            height: 110px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--primary);
+        }
+        
+        .chatbot-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            width: 350px;
+            max-height: 500px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .chatbot-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 15px 15px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .chatbot-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .message {
+            padding: 10px 15px;
+            border-radius: 10px;
+            word-wrap: break-word;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .message.user {
+            background: var(--primary);
+            color: white;
+            align-self: flex-end;
+            max-width: 80%;
+        }
+        
+        .message.bot {
+            background: var(--light);
+            color: var(--dark);
+            align-self: flex-start;
+            max-width: 80%;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .chatbot-input {
+            display: flex;
+            gap: 10px;
+            padding: 10px;
+            border-top: 1px solid var(--light);
+        }
+        
+        .chatbot-input input {
+            flex: 1;
+            border: 1px solid var(--light);
+            border-radius: 10px;
+            padding: 10px;
+        }
+        
+        .chatbot-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+        
+        .chatbot-toggle:hover {
+            transform: scale(1.1);
+        }
+        
+        .tip-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .tip-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        
+        .tip-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .tip-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        
+        .tip-savings {
+            background: rgba(0,0,0,0.2);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            width: fit-content;
+            margin-top: 10px;
+        }
+        
+        .insight {
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            border-left: 5px solid var(--primary);
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .insight strong {
+            color: var(--primary);
+        }
+        
+        .tab-content {
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        .nav-tabs {
+            border-bottom: 2px solid var(--light);
+        }
+        
+        .nav-link {
+            color: var(--dark);
+            border: none;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary);
+        }
+        
+        .nav-link.active {
+            background: transparent;
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+        
+        .alert-info {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            border-radius: 10px;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin: 20px 0;
+        }
+        
+        .spinner-loading {
+            display: inline-block;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .modal-content {
+            border-radius: 15px;
+            border: none;
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            border-radius: 15px 15px 0 0;
+        }
+        
+        @media (max-width: 768px) {
+            .chatbot-container {
+                width: 100%;
+                height: 100%;
+                max-height: 100%;
+                max-width: calc(100% - 20px);
+                border-radius: 0;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"><i class="bi bi-lightning-charge"></i> EcoSmart</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarOffcanvas">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="offcanvas offcanvas-end" id="navbarOffcanvas">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title">Navigation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="#dashboard" data-bs-dismiss="offcanvas"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#tracking" data-bs-dismiss="offcanvas"><i class="bi bi-graph-up"></i> Tracking</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#tips" data-bs-dismiss="offcanvas"><i class="bi bi-lightbulb"></i> Tips</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#profile" data-bs-dismiss="offcanvas"><i class="bi bi-person"></i> Profile</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container-fluid py-4">
+        
+        <!-- Section 1: Input & Results -->
+        <div id="dashboard" class="row mb-4">
+            <!-- Input Card -->
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="bi bi-calculator"></i> Enter Your Usage Details
+                    </div>
+                    <div class="card-body">
+                        <form id="usageForm">
+                            <div class="mb-3">
+                                <label class="form-label">Total Units (Optional)</label>
+                                <input type="number" id="units" name="units" class="form-control" placeholder="Leave blank to auto-estimate" step="0.01" min="0">
+                                <small class="text-muted">Or enter your meter reading</small>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label"><i class="bi bi-wind"></i> Fans</label>
+                                        <input type="number" name="fan" class="form-control" placeholder="Count" min="0" step="1">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label"><i class="bi bi-snow"></i> AC Units</label>
+                                        <input type="number" name="ac" class="form-control" placeholder="Count" min="0" step="1">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label"><i class="bi bi-box-seam"></i> Fridge</label>
+                                        <input type="number" name="fridge" class="form-control" placeholder="Count" min="0" step="1">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label"><i class="bi bi-display"></i> TV</label>
+                                        <input type="number" name="tv" class="form-control" placeholder="Count" min="0" step="1">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label"><i class="bi bi-fire"></i> Induction</label>
+                                        <input type="number" name="induction" class="form-control" placeholder="Count" min="0" step="1">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label"><i class="bi bi-ev-station-fill"></i> EV Vehicle</label>
+                                        <input type="number" name="ev" class="form-control" placeholder="Count" min="0" step="1">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="bi bi-lightning-fill"></i> Calculate Usage & Bill
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Card -->
+            <div class="col-lg-6">
+                <div class="card" id="resultsCard" style="display: none;">
+                    <div class="card-header">
+                        <i class="bi bi-chart-bar"></i> Your Results
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="stat-box">
+                                    <div class="stat-label">Monthly Units</div>
+                                    <div class="stat-number" id="resultUnits">0</div>
+                                    <small>kWh</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="stat-box warning">
+                                    <div class="stat-label">Current Bill</div>
+                                    <div class="stat-number" id="resultBill">₹0</div>
+                                    <small>Estimated</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="stat-box success">
+                                    <div class="stat-label">Predicted Bill</div>
+                                    <div class="stat-number" id="resultPredicted">₹0</div>
+                                    <small>AI Estimate</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="eco-score" id="ecoScore" data-score="0">
+                                    <div style="text-align: center;">
+                                        <div id="ecoScoreValue">0</div>
+                                        <small>Score</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="ecoLabel" class="alert alert-info text-center mb-0">
+                            <strong id="ecoLabelText">Calculating...</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: AI Insights & Smart Tips -->
+        <div class="row mb-4">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="bi bi-robot"></i> AI Insights
+                    </div>
+                    <div class="card-body" id="insightsContainer">
+                        <p class="text-muted">Submit your usage to see AI-powered insights...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="bi bi-lightning-charge"></i> Smart Tips
+                    </div>
+                    <div class="card-body" id="tipsContainer">
+                        <p class="text-muted">Tips will appear after calculation...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 3: Daily/Weekly/Monthly Tracking -->
+        <div id="tracking" class="card mb-4">
+            <div class="card-header">
+                <i class="bi bi-graph-up"></i> Usage Tracking & Trends
+            </div>
+            <div class="card-body">
+                <ul class="nav nav-tabs mb-3" role="tablist">
+                    <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#dailyTab"><i class="bi bi-calendar-day"></i> Today</a></li>
+                    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#weeklyTab"><i class="bi bi-calendar-week"></i> Weekly</a></li>
+                    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#billTab"><i class="bi bi-receipt"></i> Bill Comparison</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="dailyTab">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="stat-box">
+                                    <div class="stat-label">Today's Usage</div>
+                                    <div class="stat-number" id="todayUsage">0</div>
+                                    <small>Units</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="stat-box warning">
+                                    <div class="stat-label">Today's Bill</div>
+                                    <div class="stat-number" id="todayBill">₹0</div>
+                                    <small>Estimated</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="weeklyTab">
+                        <div class="chart-container">
+                            <canvas id="weeklyChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="billTab">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="stat-box">
+                                    <div class="stat-label">This Month</div>
+                                    <div class="stat-number" id="thisMonthBill">₹0</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="stat-box warning">
+                                    <div class="stat-label">Last Month</div>
+                                    <div class="stat-number" id="lastMonthBill">₹0</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-3 alert alert-info" id="billChangeAlert">
+                            Tracking data will update after first usage calculation
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 4: User Profile & Goals -->
+        <div id="profile" class="row mb-4">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="bi bi-person-circle"></i> User Profile
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label">Family Size</label>
+                            <select id="familySize" class="form-select">
+                                <option value="">Select...</option>
+                                <option value="1-2">1-2 Members (Small)</option>
+                                <option value="3-4">3-4 Members (Medium)</option>
+                                <option value="5+">5+ Members (Large)</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Property Type</label>
+                            <select id="propertyType" class="form-select">
+                                <option value="">Select...</option>
+                                <option value="apartment">Apartment</option>
+                                <option value="house">Independent House</option>
+                                <option value="villa">Villa</option>
+                            </select>
+                        </div>
+
+                        <button class="btn btn-primary w-100" id="updateProfileBtn">
+                            <i class="bi bi-check-circle"></i> Update Profile
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="bi bi-target"></i> Savings Goal
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label">Target Bill Reduction (₹)</label>
+                            <input type="number" id="billGoal" class="form-control" placeholder="e.g., 500" min="0" step="50">
+                            <small class="text-muted">Set a goal to reduce your bill</small>
+                        </div>
+
+                        <button class="btn btn-primary w-100" id="setGoalBtn">
+                            <i class="bi bi-flag"></i> Set Goal
+                        </button>
+
+                        <div id="goalStatus" class="mt-3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 5: Knowledge Base -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="bi bi-book"></i> Knowledge Base & Help
+            </div>
+            <div class="card-body">
+                <div class="accordion" id="knowledgeAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#know1">
+                                <i class="bi bi-lightning-charge"></i> What is a Unit?
+                            </button>
+                        </h2>
+                        <div id="know1" class="accordion-collapse collapse" data-bs-parent="#knowledgeAccordion">
+                            <div class="accordion-body">
+                                A unit is 1 kilowatt (kW) of power used for 1 hour. <br>
+                                <strong>Example:</strong> A 1000W bulb running for 1 hour = 1 unit.<br>
+                                Monthly usage is typically 100-300 units for average households.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#know2">
+                                <i class="bi bi-calculator"></i> How is Bill Calculated?
+                            </button>
+                        </h2>
+                        <div id="know2" class="accordion-collapse collapse" data-bs-parent="#knowledgeAccordion">
+                            <div class="accordion-body">
+                                <strong>Slab System:</strong><br>
+                                • 0-100 units: ₹3/unit<br>
+                                • 101-200 units: ₹5/unit<br>
+                                • 201-500 units: ₹7/unit<br>
+                                • 500+ units: ₹10/unit<br>
+                                <strong>Key Insight:</strong> Higher slabs cost more, so saving units saves exponentially!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#know3">
+                                <i class="bi bi-clock"></i> Peak vs Off-Peak Hours
+                            </button>
+                        </h2>
+                        <div id="know3" class="accordion-collapse collapse" data-bs-parent="#knowledgeAccordion">
+                            <div class="accordion-body">
+                                <strong>Peak Hours (6-9 PM):</strong> Expensive rate<br>
+                                <strong>Off-Peak Hours (10 PM - 6 AM):</strong> Cheap rate (40% savings)<br>
+                                <strong>Tip:</strong> Charge EV and run heavy appliances during off-peak hours!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chatbot Button -->
+    <button id="chatbotToggle" class="chatbot-toggle" onclick="toggleChatbot()">
+        <i class="bi bi-chat-right-dots"></i>
+    </button>
+
+    <!-- Chatbot Window -->
+    <div id="chatbotWindow" class="chatbot-container" style="display: none;">
+        <div class="chatbot-header">
+            <span><i class="bi bi-robot"></i> Energy Assistant</span>
+            <button type="button" onclick="toggleChatbot()" style="background: none; border: none; color: white; cursor: pointer;">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+        <div class="chatbot-body" id="chatbotBody">
+            <div class="message bot">
+                👋 Hi! I'm your energy assistant. Ask me anything about saving electricity, reducing bills, or optimizing your appliances!
+            </div>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" id="chatbotInput" placeholder="Type your question..." onkeypress="handleChatInput(event)">
+            <button onclick="sendChatMessage()" style="background: var(--primary); color: white; border: none; border-radius: 8px; width: 40px; cursor: pointer;">
+                <i class="bi bi-send"></i>
+            </button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Chart initialization
+        let weeklyChart = null;
+
+        // Form submission
+        document.getElementById('usageForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(document.getElementById('usageForm'));
+            
+            try {
+                const response = await axios.post('/api/calculate', formData);
+                const data = response.data;
+                
+                if (data.success) {
+                    updateResults(data);
+                    document.getElementById('resultsCard').style.display = 'block';
+                }
+            } catch (error) {
+                alert('Error calculating usage');
+                console.error(error);
+            }
+        });
+
+        function updateResults(data) {
+            // Update stat boxes
+            document.getElementById('resultUnits').textContent = data.units;
+            document.getElementById('resultBill').textContent = `₹${data.bill}`;
+            document.getElementById('resultPredicted').textContent = `₹${data.predicted}`;
+            
+            // Update eco score
+            document.getElementById('ecoScore').style.background = 
+                `conic-gradient(${data.eco_score >= 80 ? '#10b981' : data.eco_score >= 60 ? '#f59e0b' : '#ef4444'} 0%, ${data.eco_score >= 80 ? '#10b981' : data.eco_score >= 60 ? '#f59e0b' : '#ef4444'} ${data.eco_score}%, #f3f4f6 ${data.eco_score}%)`;
+            document.getElementById('ecoScoreValue').textContent = data.eco_score;
+            document.getElementById('ecoLabelText').textContent = `${data.eco_icon} ${data.eco_label}`;
+            
+            // Update insights
+            const insightsHTML = data.insights.map(insight => 
+                `<div class="insight">${insight}</div>`
+            ).join('');
+            document.getElementById('insightsContainer').innerHTML = insightsHTML || '<p class="text-muted">No insights available</p>';
+            
+            // Update tips
+            const tipsHTML = data.tips.map(tip => `
+                <div class="tip-card">
+                    <div class="tip-icon">${tip.icon}</div>
+                    <div class="tip-title">${tip.title}</div>
+                    <div>${tip.description}</div>
+                    <div class="tip-savings">${tip.savings} - ${tip.level}</div>
+                </div>
+            `).join('');
+            document.getElementById('tipsContainer').innerHTML = tipsHTML || '<p class="text-muted">No tips available</p>';
+        }
+
+        // Chatbot functions
+        function toggleChatbot() {
+            const toggle = document.getElementById('chatbotToggle');
+            const window = document.getElementById('chatbotWindow');
+            
+            toggle.style.display = window.style.display === 'none' ? 'flex' : 'none';
+            window.style.display = window.style.display === 'none' ? 'flex' : 'none';
+        }
+
+        function handleChatInput(event) {
+            if (event.key === 'Enter') {
+                sendChatMessage();
+            }
+        }
+
+        async function sendChatMessage() {
+            const input = document.getElementById('chatbotInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Add user message
+            addChatMessage(message, 'user');
+            input.value = '';
+            
+            try {
+                const response = await axios.post('/api/chatbot', { message });
+                if (response.data.success) {
+                    addChatMessage(response.data.response, 'bot');
+                }
+            } catch (error) {
+                addChatMessage('Sorry, I encountered an error. Please try again.', 'bot');
+            }
+        }
+
+        function addChatMessage(text, sender) {
+            const body = document.getElementById('chatbotBody');
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `message ${sender}`;
+            msgDiv.innerHTML = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+            body.appendChild(msgDiv);
+            body.scrollTop = body.scrollHeight;
+        }
+
+        // Update tracking data on page load
+        window.addEventListener('load', async () => {
+            try {
+                const response = await axios.get('/api/daily-tracking');
+                const data = response.data;
+                
+                document.getElementById('todayUsage').textContent = (data.monthly.units || 0).toFixed(1);
+                document.getElementById('todayBill').textContent = `₹${(data.monthly.bill || 0).toFixed(0)}`;
+                document.getElementById('thisMonthBill').textContent = `₹${(data.monthly.bill || 0).toFixed(0)}`;
+                document.getElementById('lastMonthBill').textContent = `₹${(data.comparison.last_month || 0).toFixed(0)}`;
+                
+                if (data.comparison.percent_change) {
+                    const icon = data.comparison.percent_change > 0 ? '📈' : '📉';
+                    document.getElementById('billChangeAlert').innerHTML = 
+                        `${icon} <strong>${data.comparison.percent_change > 0 ? '+' : ''}${data.comparison.percent_change}%</strong> from last month`;
+                }
+                
+                // Weekly chart
+                if (data.weekly && data.weekly.length > 0) {
+                    const dates = data.weekly.map(d => d.date.slice(-5));
+                    const units = data.weekly.map(d => d.units);
+                    
+                    const ctx = document.getElementById('weeklyChart');
+                    if (weeklyChart) weeklyChart.destroy();
+                    weeklyChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: dates,
+                            datasets: [{
+                                label: 'Daily Units',
+                                data: units,
+                                borderColor: '#3b82f6',
+                                backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                                tension: 0.4,
+                                fill: true
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { display: true }
+                            }
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading tracking data:', error);
+            }
+        });
+
+        // Profile and goal buttons
+        document.getElementById('updateProfileBtn')?.addEventListener('click', async () => {
+            const response = await axios.post('/api/user-profile', {
+                family_size: document.getElementById('familySize').value,
+                property_type: document.getElementById('propertyType').value
+            });
+            alert('Profile updated successfully!');
+        });
+
+        document.getElementById('setGoalBtn')?.addEventListener('click', async () => {
+            const goal = document.getElementById('billGoal').value;
+            if (!goal) {
+                alert('Please enter a goal amount');
+                return;
+            }
+            await axios.post('/api/set-goal', { goal_amount: goal });
+            document.getElementById('goalStatus').innerHTML = 
+                `<div class="alert alert-success"><i class="bi bi-check-circle"></i> Goal set: Reduce bill by ₹${goal}</div>`;
+        });
+    </script>
+</body>
+</html>

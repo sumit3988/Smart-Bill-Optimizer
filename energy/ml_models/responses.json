@@ -1,0 +1,28 @@
+{
+  "_metadata": {
+    "description": "Curated for EnergyAI training, benchmarked against IEA Energy Statistics Data Browser (CC BY 4.0)"
+  },
+  "saving_tips_general": "Here are the most effective ways to reduce your electricity bill: Set your AC to 24°C instead of 18°C — this alone saves up to 24% on cooling costs. Use natural light during the day, and replace old incandescent bulbs with LEDs. Turn off appliances at the socket instead of leaving them on standby mapping.",
+  "saving_tips_ac": "AC units are heavy consumers! Keep the temperature at 24°C, clean the filters every two weeks, and ensure windows and doors are sealed to prevent cool air from escaping.",
+  "saving_tips_lights": "Switching to LED lights can reduce lighting energy consumption by up to 80% compared to traditional incandescent bulbs. Also, make it a habit to turn off lights when leaving a room.",
+  "saving_tips_standby": "Vampire power (devices left on standby) can add up to 10% to your bill. Unplug chargers, TVs, and microwaves when not in active use.",
+  "saving_tips_fridge": "Keep your fridge coils clean and ensure there's enough space around it for ventilation. Don't leave the door open too long, and regularly check the door seals.",
+  "appliance_ac": "Air conditioners typically consume between 1 to 2 units per hour depending on the tonnage and star rating. An inverter AC is significantly more efficient than a non-inverter model.",
+  "appliance_fridge": "Refrigerators consume electricity 24/7. A typical 250L double-door fridge consumes around 1 to 1.5 units per day. Ensure the door seals are tight.",
+  "appliance_tv": "Modern LED TVs are quite efficient, consuming about 50-100 watts (0.05 - 0.1 units per hour). However, leaving them on standby still consumes power.",
+  "appliance_geyser": "Geysers (water heaters) are high-power devices, usually 2000W or more. Run them only 10-15 minutes before needing hot water, rather than leaving them on continuously.",
+  "appliance_washing_machine": "Washing machines consume more power for heating water than for spinning. Use cold wash cycles when possible to save energy.",
+  "appliance_general": "High-wattage appliances generate heat or cold (ACs, Geysers, Irons, Microwaves). Being mindful of these devices will have the biggest impact on your bill.",
+  "personal_stats": "Your usage this month is {user_kwh} kWh costing ₹{user_cost}. Your efficiency score is {score}/100. Compared to the IEA Indian household average of 95 kWh/month, you are {comparison}.",
+  "billing_slab": "Most electricity boards use a 'telescopic slab' tariff system. The first 100 units might cost ₹3/unit, the next 100 might cost ₹5/unit. As your consumption increases, the rate for higher units increases.",
+  "billing_calculation": "Your bill is calculated as: (Units in Slab 1 × Slab 1 Rate) + (Units in Slab 2 × Slab 2 Rate) + Fixed Charges + Duties and Taxes.",
+  "billing_fixed_charge": "Fixed charges are a mandatory monthly fee based on your sanctioned load (in kW), paying for the infrastructure to deliver electricity to your home regardless of usage.",
+  "billing_general": "Check your physical bill for the specific slab structure of your local distribution company, as rates differ by state.",
+  "iea_benchmark_info": "According to the IEA Energy Statistics Data Browser (CC BY 4.0), the average Indian household consumes roughly 95 to 110 kWh per month per capita, though it varies significantly by region and urbanization.",
+  "renewables_solar": "Installing rooftop solar is a great long-term investment. With current subsidies, the ROI is usually 4 to 6 years, and it can reduce your bill to nearly zero.",
+  "renewables_net_metering": "Net metering allows you to export excess solar energy back to the grid. Your meter runs backwards, and you only pay for the 'net' energy you draw from the grid.",
+  "prediction_general": "Based on a machine learning forecast, your usage will be predicted from your historical data. {prediction_details}",
+  "smalltalk_greeting": "Hello! I am EnergyAI. I can help you understand your bill, analyze appliance usage, and give personalized tips to save electricity.",
+  "smalltalk_thanks": "You're very welcome! If you have any more questions about saving energy, just ask.",
+  "smalltalk_help": "I can help you with saving tips, explaining your bill, answering appliance questions, and giving you details about your personal electricity stats!"
+}
