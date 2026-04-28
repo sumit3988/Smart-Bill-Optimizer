@@ -61,5 +61,5 @@
     "support": 64.0
   },
   "overall_accuracy": 0.96875,
-  "total_examples": 1200
+  "total_examples": 320
 }

@@ -1715,10 +1715,21 @@
                     <input class="form-control appliance-name" value="${escapeHtml(nameValue)}" placeholder="Appliance name">
                     <div class="appliance-note">Add any appliance not listed in the built-in database.</div>
                 </div>
-                <input class="form-control appliance-power" type="number" min="0" step="1" value="${wattValue}" placeholder="Watts">
-                <input class="form-control appliance-count" type="number" min="0" step="1" value="${countValue}" placeholder="Count">
-                <input class="form-control appliance-hours" type="number" min="0" step="0.5" value="${hoursValue}" placeholder="Hours/day">
-                <button type="button" class="btn btn-outline remove-appliance-btn"><i class="bi bi-trash"></i></button>
+                <div>
+                    <label style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 2px;">Count</label>
+                    <input class="form-control appliance-count" type="number" min="0" step="1" value="${countValue}" placeholder="Count">
+                </div>
+                <div>
+                    <label style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 2px;">Hours/day</label>
+                    <input class="form-control appliance-hours" type="number" min="0" step="0.5" value="${hoursValue}" placeholder="Hours/day">
+                </div>
+                <div>
+                    <label style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 2px;">Watts</label>
+                    <input class="form-control appliance-power" type="number" min="0" step="1" value="${wattValue}" placeholder="Watts">
+                </div>
+                <div style="align-self: flex-end; padding-bottom: 2px;">
+                    <button type="button" class="btn btn-outline remove-appliance-btn"><i class="bi bi-trash"></i></button>
+                </div>
             ` : `
                 <div class="appliance-meta">
                     <div class="d-flex align-items-center gap-2">
@@ -1728,10 +1739,19 @@
                     <div class="appliance-note">${escapeHtml(noteValue)}</div>
                     <span class="soft-badge">${escapeHtml(item.category || 'General')} • ${wattValue}W</span>
                 </div>
-                <input class="form-control appliance-count" type="number" min="0" step="1" value="${countValue}" placeholder="Count" ${disabledAttr}>
-                <input class="form-control appliance-hours" type="number" min="0" step="0.5" value="${hoursValue}" placeholder="Hours/day" ${disabledAttr}>
-                <input class="form-control appliance-power" type="number" min="0" step="1" value="${wattValue}" placeholder="Watts" ${disabledAttr}>
-                <div style="font-size: 0.85rem; color: var(--text-muted);">${item.id === 'ups' ? '15% loss added' : 'Built-in default'}</div>
+                <div>
+                    <label style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 2px;">Count</label>
+                    <input class="form-control appliance-count" type="number" min="0" step="1" value="${countValue}" placeholder="Count" ${disabledAttr}>
+                </div>
+                <div>
+                    <label style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 2px;">Hours/day</label>
+                    <input class="form-control appliance-hours" type="number" min="0" step="0.5" value="${hoursValue}" placeholder="Hours/day" ${disabledAttr}>
+                </div>
+                <div>
+                    <label style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 2px;">Watts</label>
+                    <input class="form-control appliance-power" type="number" min="0" step="1" value="${wattValue}" placeholder="Watts" ${disabledAttr}>
+                </div>
+                <div style="font-size: 0.85rem; color: var(--text-muted); align-self: flex-end; padding-bottom: 8px;">${item.id === 'ups' ? '15% loss added' : 'Built-in default'}</div>
             `;
 
             if (isCustom) {
