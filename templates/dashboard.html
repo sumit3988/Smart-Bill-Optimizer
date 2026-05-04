@@ -845,10 +845,44 @@
         }
         
         /* ===== CHATBOT ===== */
-        .chatbot-toggle {
+        .chatbot-toggle-wrapper {
             position: fixed;
             bottom: 20px;
             right: 20px;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-direction: row-reverse;
+        }
+
+        .chatbot-greeting {
+            background: var(--white);
+            color: var(--text-dark);
+            padding: 10px 16px;
+            border-radius: 12px 12px 4px 12px;
+            box-shadow: var(--shadow-lg);
+            font-size: 0.88rem;
+            font-weight: 600;
+            white-space: nowrap;
+            animation: greetingPulse 3s ease-in-out infinite;
+            border: 1px solid var(--border);
+            pointer-events: none;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .chatbot-greeting.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        @keyframes greetingPulse {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+
+        .chatbot-toggle {
             width: 60px;
             height: 60px;
             border-radius: 50%;
@@ -862,7 +896,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 999;
+            flex-shrink: 0;
         }
         
         .chatbot-toggle:hover {
@@ -883,6 +917,55 @@
             flex-direction: column;
             border: 1px solid var(--border);
             z-index: 999;
+            transition: width 0.3s ease, max-height 0.3s ease, height 0.3s ease, bottom 0.3s ease;
+        }
+
+        .chatbot-container.enlarged {
+            width: 600px;
+            max-height: none;
+            height: calc(100vh - 100px);
+            bottom: 20px;
+            right: 20px;
+        }
+
+        .chatbot-container.enlarged .chatbot-body {
+            font-size: 0.95rem;
+        }
+
+        .chatbot-container.enlarged .message {
+            font-size: 0.95rem;
+            padding: 14px 16px;
+            line-height: 1.55;
+        }
+
+        .chatbot-container.enlarged .chatbot-input input {
+            font-size: 0.95rem;
+            padding: 12px;
+        }
+
+        .chatbot-header-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .chatbot-header-actions button {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1.1rem;
+            opacity: 0.8;
+            transition: opacity 0.2s, transform 0.2s;
+            padding: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chatbot-header-actions button:hover {
+            opacity: 1;
+            transform: scale(1.15);
         }
         
         .chatbot-header {
@@ -1041,6 +1124,15 @@
             .chatbot-container {
                 width: calc(100vw - 20px);
                 max-width: none;
+            }
+
+            .chatbot-container.enlarged {
+                width: calc(100vw - 20px);
+                max-height: 75vh;
+            }
+
+            .chatbot-greeting {
+                display: none;
             }
 
             .appliance-row {
@@ -1609,17 +1701,27 @@
     </footer>
 
     <!-- CHATBOT BUTTON -->
-    <button id="chatbotToggle" class="chatbot-toggle" onclick="toggleChatbot()" title="Chat with Assistant" aria-controls="chatbotWindow" aria-expanded="false">
-        <i class="bi bi-chat-dots"></i>
-    </button>
+    <div class="chatbot-toggle-wrapper">
+        <button id="chatbotToggle" class="chatbot-toggle" onclick="toggleChatbot()" title="Chat with Assistant" aria-controls="chatbotWindow" aria-expanded="false">
+            <i class="bi bi-chat-dots"></i>
+        </button>
+        <div class="chatbot-greeting" id="chatbotGreeting">
+            Hi, I'm your Energy Assistant! 💡
+        </div>
+    </div>
 
     <!-- CHATBOT WINDOW -->
     <div id="chatbotWindow" class="chatbot-container" style="display: none;">
         <div class="chatbot-header">
             <span><i class="bi bi-robot"></i> Energy Assistant</span>
-            <button type="button" onclick="closeChatbot()" style="background: none; border: none; color: white; cursor: pointer; font-size: 1.2rem;">
-                <i class="bi bi-x-lg"></i>
-            </button>
+            <div class="chatbot-header-actions">
+                <button type="button" onclick="toggleChatbotSize()" title="Enlarge chat" id="chatbotSizeBtn">
+                    <i class="bi bi-arrows-angle-expand"></i>
+                </button>
+                <button type="button" onclick="closeChatbot()" title="Close chat">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
         </div>
         <div class="chatbot-body" id="chatbotBody">
             <div class="message bot">
@@ -2084,6 +2186,8 @@
         }
 
         // Chatbot functions
+        let chatbotEnlarged = false;
+
         function toggleChatbot() {
             if (chatbotOpen) {
                 closeChatbot();
@@ -2096,6 +2200,8 @@
             chatbotOpen = true;
             document.getElementById('chatbotWindow').style.display = 'flex';
             document.getElementById('chatbotToggle').setAttribute('aria-expanded', 'true');
+            const greeting = document.getElementById('chatbotGreeting');
+            if (greeting) greeting.classList.add('hidden');
             renderQuickReplies(defaultQuickReplies);
             setTimeout(() => document.getElementById('chatbotInput').focus(), 0);
         }
@@ -2104,6 +2210,28 @@
             chatbotOpen = false;
             document.getElementById('chatbotWindow').style.display = 'none';
             document.getElementById('chatbotToggle').setAttribute('aria-expanded', 'false');
+            const greeting = document.getElementById('chatbotGreeting');
+            if (greeting) greeting.classList.remove('hidden');
+        }
+
+        function toggleChatbotSize() {
+            const chatWindow = document.getElementById('chatbotWindow');
+            const sizeBtn = document.getElementById('chatbotSizeBtn');
+            chatbotEnlarged = !chatbotEnlarged;
+
+            if (chatbotEnlarged) {
+                chatWindow.classList.add('enlarged');
+                sizeBtn.innerHTML = '<i class="bi bi-arrows-angle-contract"></i>';
+                sizeBtn.title = 'Shrink chat';
+            } else {
+                chatWindow.classList.remove('enlarged');
+                sizeBtn.innerHTML = '<i class="bi bi-arrows-angle-expand"></i>';
+                sizeBtn.title = 'Enlarge chat';
+            }
+
+            // Scroll to bottom after resize
+            const body = document.getElementById('chatbotBody');
+            setTimeout(() => { body.scrollTop = body.scrollHeight; }, 350);
         }
 
         function renderQuickReplies(replies) {
